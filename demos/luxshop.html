@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxShop E-Commerce - Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0a0a1a;color:#e0e0ff}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(108,99,255,.15);background:rgba(10,10,30,.9);position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)}
+.topbar h1{font-size:20px;background:linear-gradient(135deg,#ffd740,#ff6b9d);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar nav{display:flex;gap:24px}
+.topbar nav a{color:#a0a0c0;text-decoration:none;font-size:14px;transition:.2s}
+.topbar nav a:hover{color:#ffd740}
+.cart-badge{position:relative;font-size:20px;cursor:pointer}
+.cart-count{position:absolute;top:-6px;right:-8px;background:#ff6b9d;color:white;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.hero-banner{background:linear-gradient(135deg,rgba(255,215,64,.1),rgba(255,107,157,.1));padding:60px 32px;text-align:center}
+.hero-banner h2{font-size:36px;margin-bottom:8px}
+.hero-banner p{color:#a0a0c0;font-size:16px;margin-bottom:20px}
+.hero-banner button{padding:14px 36px;background:linear-gradient(135deg,#ffd740,#ff6b9d);border:none;border-radius:8px;color:#0a0a1a;font-weight:700;font-size:15px;cursor:pointer;transition:.3s}
+.hero-banner button:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(255,215,64,.4)}
+.section{padding:40px 32px}
+.section h3{font-size:20px;margin-bottom:24px}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.product-card{background:rgba(20,20,55,.6);border:1px solid rgba(108,99,255,.1);border-radius:16px;overflow:hidden;transition:.3s;cursor:pointer}
+.product-card:hover{transform:translateY(-4px);border-color:rgba(255,215,64,.3);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.product-img{height:200px;background:linear-gradient(135deg,#141432,#1a1a4e);display:flex;align-items:center;justify-content:center;font-size:64px}
+.product-info{padding:16px}
+.product-name{font-size:15px;font-weight:600;margin-bottom:4px}
+.product-desc{font-size:12px;color:#a0a0c0;margin-bottom:8px}
+.product-price{display:flex;justify-content:space-between;align-items:center}
+.product-price .price{font-size:20px;font-weight:700;color:#ffd740}
+.product-price .old-price{font-size:13px;color:#a0a0c0;text-decoration:line-through}
+.add-btn{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ffd740,#ff6b9d);border:none;font-size:18px;cursor:pointer;transition:.2s;color:#0a0a1a}
+.add-btn:hover{transform:scale(1.15)}
+.stars{color:#ffd740;font-size:12px;margin-bottom:6px}
+@media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr)}.topbar nav{display:none}.hero-banner h2{font-size:24px}.section{padding:24px 16px}}
+@media(max-width:480px){.products-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar">
+    <h1>✨ LuxShop</h1>
+    <nav><a href="#">Inicio</a><a href="#">Colecciones</a><a href="#">Ofertas</a><a href="#">Contacto</a></nav>
+    <div class="cart-badge">🛒<span class="cart-count">3</span></div>
+</div>
+<div class="hero-banner">
+    <h2>Colección Premium 2026 ✨</h2>
+    <p>Descubre productos exclusivos con envío gratis en tu primera compra</p>
+    <button>Explorar Colección →</button>
+</div>
+<div class="section">
+    <h3>🔥 Productos Destacados</h3>
+    <div class="products-grid">
+        <div class="product-card">
+            <div class="product-img">⌚</div>
+            <div class="product-info">
+                <div class="stars">★★★★★</div>
+                <div class="product-name">Smartwatch Pro X</div>
+                <div class="product-desc">GPS, salud, batería 7 días</div>
+                <div class="product-price"><div><span class="price">$299</span> <span class="old-price">$449</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">🎧</div>
+            <div class="product-info">
+                <div class="stars">★★★★★</div>
+                <div class="product-name">ANC Headphones V3</div>
+                <div class="product-desc">Cancelación de ruido activa</div>
+                <div class="product-price"><div><span class="price">$199</span> <span class="old-price">$329</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">📱</div>
+            <div class="product-info">
+                <div class="stars">★★★★☆</div>
+                <div class="product-name">Funda Premium Leather</div>
+                <div class="product-desc">Cuero genuino, MagSafe</div>
+                <div class="product-price"><div><span class="price">$49</span> <span class="old-price">$79</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">💻</div>
+            <div class="product-info">
+                <div class="stars">★★★★★</div>
+                <div class="product-name">Laptop Stand Lux</div>
+                <div class="product-desc">Aluminio, ajustable, ergonómico</div>
+                <div class="product-price"><div><span class="price">$89</span> <span class="old-price">$149</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">🖱️</div>
+            <div class="product-info">
+                <div class="stars">★★★★★</div>
+                <div class="product-name">Mouse Ergonómico Pro</div>
+                <div class="product-desc">Bluetooth 5.0, recargable</div>
+                <div class="product-price"><div><span class="price">$69</span> <span class="old-price">$99</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">⌨️</div>
+            <div class="product-info">
+                <div class="stars">★★★★☆</div>
+                <div class="product-name">Teclado Mecánico RGB</div>
+                <div class="product-desc">Switches cherry, backlit</div>
+                <div class="product-price"><div><span class="price">$129</span> <span class="old-price">$199</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">🎒</div>
+            <div class="product-info">
+                <div class="stars">★★★★★</div>
+                <div class="product-name">Mochila Tech Urban</div>
+                <div class="product-desc">Impermeable, USB, laptop 17"</div>
+                <div class="product-price"><div><span class="price">$79</span> <span class="old-price">$139</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+        <div class="product-card">
+            <div class="product-img">📷</div>
+            <div class="product-info">
+                <div class="stars">★★★★★</div>
+                <div class="product-name">Webcam 4K Ultra</div>
+                <div class="product-desc">Auto-focus, HDR, micrófono</div>
+                <div class="product-price"><div><span class="price">$159</span> <span class="old-price">$249</span></div><button class="add-btn">+</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

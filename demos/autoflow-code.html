@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Código - AutoFlow</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#1e1e2e;color:#cdd6f4}.toolbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#181825;border-bottom:1px solid #313244;position:sticky;top:0}.toolbar .dots{display:flex;gap:6px}.toolbar .dots span{width:10px;height:10px;border-radius:50%}.toolbar .filename{font-size:13px;color:#a6adc8;flex:1;text-align:center}.tab-bar{display:flex;background:#11111b;border-bottom:1px solid #313244;overflow-x:auto}.tab{padding:8px 16px;font-size:12px;color:#6c7086;border-bottom:2px solid transparent;white-space:nowrap}.tab.active{color:#cdd6f4;background:#1e1e2e;border-bottom-color:#89b4fa}pre{padding:20px;font-size:13px;line-height:1.8;overflow-x:auto;counter-reset:line}.line{display:block;padding:0 16px}.line::before{counter-increment:line;content:counter(line);display:inline-block;width:40px;text-align:right;margin-right:16px;color:#45475a;font-size:12px}.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.num{color:#fab387}.dec{color:#f9e2af}.typ{color:#f38ba8}</style></head><body>
+<div class="toolbar"><div class="dots"><span style="background:#f38ba8"></span><span style="background:#f9e2af"></span><span style="background:#a6e3a1"></span></div><span class="filename">AutoFlow System · Python + AWS IoT</span></div>
+<div class="tab-bar"><div class="tab active">autoflow.py</div><div class="tab">mqtt_handler.py</div><div class="tab">Dockerfile</div></div>
+<pre>
+<span class="line"><span class="cm"># autoflow.py - Sistema de automatización IoT</span></span>
+<span class="line"><span class="kw">import</span> asyncio</span>
+<span class="line"><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass</span>
+<span class="line"><span class="kw">from</span> typing <span class="kw">import</span> List, Dict</span>
+<span class="line"><span class="kw">from</span> mqtt_handler <span class="kw">import</span> MQTTClient</span>
+<span class="line"><span class="kw">from</span> aws_iot <span class="kw">import</span> IoTCore</span>
+<span class="line"><span class="kw">from</span> alerts <span class="kw">import</span> AlertManager</span>
+<span class="line"></span>
+<span class="line"><span class="dec">@dataclass</span></span>
+<span class="line"><span class="kw">class</span> <span class="typ">SensorReading</span>:</span>
+<span class="line">    device_id: <span class="typ">str</span></span>
+<span class="line">    temperature: <span class="typ">float</span></span>
+<span class="line">    humidity: <span class="typ">float</span></span>
+<span class="line">    pressure: <span class="typ">float</span></span>
+<span class="line">    timestamp: <span class="typ">datetime</span></span>
+<span class="line"></span>
+<span class="line"><span class="kw">class</span> <span class="typ">AutoFlowEngine</span>:</span>
+<span class="line">    <span class="kw">def</span> <span class="fn">__init__</span>(self, config: <span class="typ">Dict</span>):</span>
+<span class="line">        self.mqtt = <span class="typ">MQTTClient</span>(config[<span class="str">'broker'</span>])</span>
+<span class="line">        self.iot = <span class="typ">IoTCore</span>(region=config[<span class="str">'aws_region'</span>])</span>
+<span class="line">        self.alerts = <span class="typ">AlertManager</span>()</span>
+<span class="line">        self.pipelines: <span class="typ">List</span>[<span class="typ">Pipeline</span>] = []</span>
+<span class="line"></span>
+<span class="line">    <span class="kw">async def</span> <span class="fn">process_reading</span>(self, reading: <span class="typ">SensorReading</span>):</span>
+<span class="line">        <span class="cm">"""Procesa lecturas de sensores IoT en tiempo real"""</span></span>
+<span class="line">        <span class="kw">if</span> reading.temperature > <span class="num">28.0</span>:</span>
+<span class="line">            <span class="kw">await</span> self.alerts.<span class="fn">send</span>(</span>
+<span class="line">                level=<span class="str">'warning'</span>,</span>
+<span class="line">                message=<span class="str">f'Temp alta: {reading.temperature}°C'</span>,</span>
+<span class="line">                device=reading.device_id</span>
+<span class="line">            )</span>
+<span class="line"></span>
+<span class="line">        <span class="kw">await</span> self.iot.<span class="fn">publish</span>(</span>
+<span class="line">            topic=<span class="str">f'sensors/{reading.device_id}/data'</span>,</span>
+<span class="line">            payload=reading.<span class="fn">to_dict</span>()</span>
+<span class="line">        )</span>
+<span class="line"></span>
+<span class="line">    <span class="kw">async def</span> <span class="fn">run</span>(self):</span>
+<span class="line">        <span class="cm">"""Ejecuta el engine de automatización"""</span></span>
+<span class="line">        <span class="kw">await</span> self.mqtt.<span class="fn">connect</span>()</span>
+<span class="line">        <span class="kw">async for</span> reading <span class="kw">in</span> self.mqtt.<span class="fn">subscribe</span>(<span class="str">'sensors/+/raw'</span>):</span>
+<span class="line">            <span class="kw">await</span> self.<span class="fn">process_reading</span>(reading)</span>
+<span class="line"></span>
+<span class="line"><span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:</span>
+<span class="line">    engine = <span class="typ">AutoFlowEngine</span>(<span class="fn">load_config</span>())</span>
+<span class="line">    asyncio.<span class="fn">run</span>(engine.<span class="fn">run</span>())</span>
+</pre></body></html>

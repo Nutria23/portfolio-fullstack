@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Código - TeamSync</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#1e1e2e;color:#cdd6f4}.toolbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#181825;border-bottom:1px solid #313244;position:sticky;top:0}.toolbar .dots{display:flex;gap:6px}.toolbar .dots span{width:10px;height:10px;border-radius:50%}.toolbar .filename{font-size:13px;color:#a6adc8;flex:1;text-align:center}pre{padding:20px;font-size:13px;line-height:1.8;overflow-x:auto;counter-reset:line}.line{display:block;padding:0 16px}.line::before{counter-increment:line;content:counter(line);display:inline-block;width:40px;text-align:right;margin-right:16px;color:#45475a;font-size:12px}.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.num{color:#fab387}.typ{color:#f38ba8}</style></head><body>
+<div class="toolbar"><div class="dots"><span style="background:#f38ba8"></span><span style="background:#f9e2af"></span><span style="background:#a6e3a1"></span></div><span class="filename">TeamSync SaaS · Vue.js + GraphQL</span></div>
+<pre>
+<span class="line"><span class="cm">// KanbanBoard.vue - Tablero Kanban principal</span></span>
+<span class="line">&lt;<span class="kw">template</span>&gt;</span>
+<span class="line">  &lt;<span class="typ">div</span> class=<span class="str">"kanban-board"</span>&gt;</span>
+<span class="line">    &lt;<span class="typ">KanbanColumn</span></span>
+<span class="line">      v-for=<span class="str">"column in columns"</span></span>
+<span class="line">      :key=<span class="str">"column.id"</span></span>
+<span class="line">      :column=<span class="str">"column"</span></span>
+<span class="line">      @task-moved=<span class="str">"handleTaskMove"</span></span>
+<span class="line">      @task-created=<span class="str">"handleTaskCreate"</span></span>
+<span class="line">    /&gt;</span>
+<span class="line">  &lt;/<span class="typ">div</span>&gt;</span>
+<span class="line">&lt;/<span class="kw">template</span>&gt;</span>
+<span class="line"></span>
+<span class="line">&lt;<span class="kw">script</span> setup lang=<span class="str">"ts"</span>&gt;</span>
+<span class="line"><span class="kw">import</span> { useQuery, useMutation } <span class="kw">from</span> <span class="str">'@vue/apollo-composable'</span>;</span>
+<span class="line"><span class="kw">import</span> { GET_BOARD, MOVE_TASK } <span class="kw">from</span> <span class="str">'@/graphql/queries'</span>;</span>
+<span class="line"></span>
+<span class="line"><span class="kw">const</span> { result, loading } = <span class="fn">useQuery</span>(GET_BOARD);</span>
+<span class="line"><span class="kw">const</span> { mutate: moveTask } = <span class="fn">useMutation</span>(MOVE_TASK);</span>
+<span class="line"></span>
+<span class="line"><span class="kw">const</span> columns = <span class="fn">computed</span>(() =&gt; result.value?.board?.columns ?? []);</span>
+<span class="line"></span>
+<span class="line"><span class="kw">async function</span> <span class="fn">handleTaskMove</span>(taskId: <span class="typ">string</span>, toColumn: <span class="typ">string</span>) {</span>
+<span class="line">  <span class="kw">await</span> <span class="fn">moveTask</span>({ taskId, columnId: toColumn });</span>
+<span class="line">  <span class="cm">// Actualización optimista ya manejada por Apollo</span></span>
+<span class="line">}</span>
+<span class="line"></span>
+<span class="line"><span class="kw">async function</span> <span class="fn">handleTaskCreate</span>(columnId: <span class="typ">string</span>, title: <span class="typ">string</span>) {</span>
+<span class="line">  <span class="kw">await</span> <span class="fn">createTask</span>({ columnId, title, assignee: currentUser.id });</span>
+<span class="line">}</span>
+<span class="line">&lt;/<span class="kw">script</span>&gt;</span>
+</pre></body></html>

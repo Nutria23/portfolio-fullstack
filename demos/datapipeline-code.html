@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Código - DataPipeline</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#1e1e2e;color:#cdd6f4}.toolbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#181825;border-bottom:1px solid #313244;position:sticky;top:0}.toolbar .dots{display:flex;gap:6px}.toolbar .dots span{width:10px;height:10px;border-radius:50%}.toolbar .filename{font-size:13px;color:#a6adc8;flex:1;text-align:center}pre{padding:20px;font-size:13px;line-height:1.8;overflow-x:auto;counter-reset:line}.line{display:block;padding:0 16px}.line::before{counter-increment:line;content:counter(line);display:inline-block;width:40px;text-align:right;margin-right:16px;color:#45475a;font-size:12px}.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.num{color:#fab387}.typ{color:#f38ba8}.dec{color:#f9e2af}</style></head><body>
+<div class="toolbar"><div class="dots"><span style="background:#f38ba8"></span><span style="background:#f9e2af"></span><span style="background:#a6e3a1"></span></div><span class="filename">DataPipeline · Python + Celery + Pandas</span></div>
+<pre>
+<span class="line"><span class="cm"># pipeline.py - Pipeline ETL automatizado</span></span>
+<span class="line"><span class="kw">import</span> pandas <span class="kw">as</span> pd</span>
+<span class="line"><span class="kw">from</span> celery <span class="kw">import</span> Celery, chain</span>
+<span class="line"><span class="kw">from</span> sqlalchemy <span class="kw">import</span> create_engine</span>
+<span class="line"><span class="kw">from</span> report_generator <span class="kw">import</span> PDFReport</span>
+<span class="line"><span class="kw">from</span> notifications <span class="kw">import</span> send_slack, send_email</span>
+<span class="line"></span>
+<span class="line">app = <span class="typ">Celery</span>(<span class="str">'pipeline'</span>, broker=<span class="str">'amqp://localhost'</span>)</span>
+<span class="line">engine = <span class="fn">create_engine</span>(<span class="str">'postgresql://localhost/analytics'</span>)</span>
+<span class="line"></span>
+<span class="line"><span class="dec">@app.task</span>(bind=<span class="kw">True</span>, max_retries=<span class="num">3</span>)</span>
+<span class="line"><span class="kw">def</span> <span class="fn">extract_data</span>(self, source_url: <span class="typ">str</span>) -> <span class="typ">dict</span>:</span>
+<span class="line">    <span class="cm">"""Extrae datos de API externa con reintentos"""</span></span>
+<span class="line">    <span class="kw">try</span>:</span>
+<span class="line">        response = requests.<span class="fn">get</span>(source_url, timeout=<span class="num">30</span>)</span>
+<span class="line">        response.<span class="fn">raise_for_status</span>()</span>
+<span class="line">        <span class="kw">return</span> response.<span class="fn">json</span>()</span>
+<span class="line">    <span class="kw">except</span> <span class="typ">Exception</span> <span class="kw">as</span> e:</span>
+<span class="line">        self.<span class="fn">retry</span>(exc=e, countdown=<span class="num">60</span>)</span>
+<span class="line"></span>
+<span class="line"><span class="dec">@app.task</span></span>
+<span class="line"><span class="kw">def</span> <span class="fn">transform_data</span>(raw_data: <span class="typ">dict</span>) -> <span class="typ">dict</span>:</span>
+<span class="line">    <span class="cm">"""Limpia y transforma datos con Pandas"""</span></span>
+<span class="line">    df = pd.<span class="typ">DataFrame</span>(raw_data[<span class="str">'records'</span>])</span>
+<span class="line">    df = df.<span class="fn">drop_duplicates</span>()</span>
+<span class="line">    df[<span class="str">'date'</span>] = pd.<span class="fn">to_datetime</span>(df[<span class="str">'date'</span>])</span>
+<span class="line">    df[<span class="str">'revenue'</span>] = df[<span class="str">'revenue'</span>].<span class="fn">astype</span>(<span class="typ">float</span>)</span>
+<span class="line">    <span class="kw">return</span> df.<span class="fn">to_dict</span>(orient=<span class="str">'records'</span>)</span>
+<span class="line"></span>
+<span class="line"><span class="dec">@app.task</span></span>
+<span class="line"><span class="kw">def</span> <span class="fn">load_and_report</span>(clean_data: <span class="typ">list</span>):</span>
+<span class="line">    <span class="cm">"""Carga datos y genera reportes"""</span></span>
+<span class="line">    df = pd.<span class="typ">DataFrame</span>(clean_data)</span>
+<span class="line">    df.<span class="fn">to_sql</span>(<span class="str">'sales'</span>, engine, if_exists=<span class="str">'append'</span>)</span>
+<span class="line">    </span>
+<span class="line">    report = <span class="typ">PDFReport</span>(df)</span>
+<span class="line">    path = report.<span class="fn">generate</span>()</span>
+<span class="line">    <span class="fn">send_email</span>(<span class="str">'admin@empresa.com'</span>, attachment=path)</span>
+<span class="line">    <span class="fn">send_slack</span>(<span class="str">'#data-team'</span>, <span class="str">f'📊 Reporte: {len(df)} registros'</span>)</span>
+<span class="line"></span>
+<span class="line"><span class="cm"># Ejecutar pipeline completo</span></span>
+<span class="line">pipeline = <span class="fn">chain</span>(extract_data.<span class="fn">s</span>(API_URL), transform_data.<span class="fn">s</span>(), load_and_report.<span class="fn">s</span>())</span>
+<span class="line">pipeline.<span class="fn">apply_async</span>()</span>
+</pre></body></html>

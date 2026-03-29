@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Código - FitTrack</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#1e1e2e;color:#cdd6f4}.toolbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#181825;border-bottom:1px solid #313244;position:sticky;top:0}.toolbar .dots{display:flex;gap:6px}.toolbar .dots span{width:10px;height:10px;border-radius:50%}.toolbar .filename{font-size:13px;color:#a6adc8;flex:1;text-align:center}.tab-bar{display:flex;background:#11111b;border-bottom:1px solid #313244;overflow-x:auto}.tab{padding:8px 16px;font-size:12px;color:#6c7086;border-bottom:2px solid transparent;white-space:nowrap}.tab.active{color:#cdd6f4;background:#1e1e2e;border-bottom-color:#89b4fa}pre{padding:20px;font-size:13px;line-height:1.8;overflow-x:auto;counter-reset:line}.line{display:block;padding:0 16px}.line::before{counter-increment:line;content:counter(line);display:inline-block;width:40px;text-align:right;margin-right:16px;color:#45475a;font-size:12px}.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.num{color:#fab387}.typ{color:#f38ba8}.dec{color:#f9e2af}</style></head><body>
+<div class="toolbar"><div class="dots"><span style="background:#f38ba8"></span><span style="background:#f9e2af"></span><span style="background:#a6e3a1"></span></div><span class="filename">FitTrack App · Flutter + Firebase</span></div>
+<div class="tab-bar"><div class="tab active">home_screen.dart</div><div class="tab">workout_model.dart</div><div class="tab">firebase_service.dart</div></div>
+<pre>
+<span class="line"><span class="cm">// home_screen.dart - Pantalla principal FitTrack</span></span>
+<span class="line"><span class="kw">import</span> <span class="str">'package:flutter/material.dart'</span>;</span>
+<span class="line"><span class="kw">import</span> <span class="str">'package:provider/provider.dart'</span>;</span>
+<span class="line"><span class="kw">import</span> <span class="str">'../models/workout_model.dart'</span>;</span>
+<span class="line"><span class="kw">import</span> <span class="str">'../services/firebase_service.dart'</span>;</span>
+<span class="line"><span class="kw">import</span> <span class="str">'../widgets/progress_ring.dart'</span>;</span>
+<span class="line"></span>
+<span class="line"><span class="kw">class</span> <span class="typ">HomeScreen</span> <span class="kw">extends</span> <span class="typ">StatefulWidget</span> {</span>
+<span class="line">  <span class="dec">@override</span></span>
+<span class="line">  <span class="typ">_HomeScreenState</span> <span class="fn">createState</span>() => <span class="typ">_HomeScreenState</span>();</span>
+<span class="line">}</span>
+<span class="line"></span>
+<span class="line"><span class="kw">class</span> <span class="typ">_HomeScreenState</span> <span class="kw">extends</span> <span class="typ">State</span>&lt;<span class="typ">HomeScreen</span>&gt; {</span>
+<span class="line">  <span class="kw">late</span> <span class="typ">Future</span>&lt;<span class="typ">DailyStats</span>&gt; _stats;</span>
+<span class="line"></span>
+<span class="line">  <span class="dec">@override</span></span>
+<span class="line">  <span class="kw">void</span> <span class="fn">initState</span>() {</span>
+<span class="line">    <span class="kw">super</span>.<span class="fn">initState</span>();</span>
+<span class="line">    _stats = <span class="typ">FirebaseService</span>.<span class="fn">getDailyStats</span>();</span>
+<span class="line">  }</span>
+<span class="line"></span>
+<span class="line">  <span class="dec">@override</span></span>
+<span class="line">  <span class="typ">Widget</span> <span class="fn">build</span>(<span class="typ">BuildContext</span> context) {</span>
+<span class="line">    <span class="kw">return</span> <span class="typ">Scaffold</span>(</span>
+<span class="line">      backgroundColor: <span class="typ">Color</span>(<span class="num">0xFF0A0A1E</span>),</span>
+<span class="line">      body: <span class="typ">FutureBuilder</span>&lt;<span class="typ">DailyStats</span>&gt;(</span>
+<span class="line">        future: _stats,</span>
+<span class="line">        builder: (ctx, snapshot) {</span>
+<span class="line">          <span class="kw">if</span> (!snapshot.hasData) <span class="kw">return</span> <span class="typ">LoadingSpinner</span>();</span>
+<span class="line">          <span class="kw">final</span> stats = snapshot.data!;</span>
+<span class="line">          <span class="kw">return</span> <span class="typ">Column</span>(children: [</span>
+<span class="line">            <span class="typ">ProgressRing</span>(progress: stats.goalPercent),</span>
+<span class="line">            <span class="typ">StatsRow</span>(</span>
+<span class="line">              calories: stats.calories,</span>
+<span class="line">              steps: stats.steps,</span>
+<span class="line">              activeMinutes: stats.activeMinutes,</span>
+<span class="line">            ),</span>
+<span class="line">            <span class="typ">WorkoutList</span>(workouts: stats.workouts),</span>
+<span class="line">          ]);</span>
+<span class="line">        },</span>
+<span class="line">      ),</span>
+<span class="line">    );</span>
+<span class="line">  }</span>
+<span class="line">}</span>
+</pre></body></html>

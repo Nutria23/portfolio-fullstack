@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>DataPipeline - Demo</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#0a0a14;color:#e0e0e0;padding:20px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}.header h1{font-size:20px;color:#00e676}.badge{padding:4px 12px;border-radius:12px;font-size:11px;background:rgba(0,230,118,.1);color:#00e676;border:1px solid rgba(0,230,118,.3)}.terminal{background:#0f0f1a;border:1px solid rgba(0,230,118,.2);border-radius:8px;padding:20px;margin-bottom:20px;max-height:500px;overflow-y:auto}.line{padding:2px 0;font-size:13px;line-height:1.6}.prompt{color:#00e676}.info{color:#00d4ff}.warn{color:#ffd740}.err{color:#ff5252}.ok{color:#00e676}.dim{color:#666}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.stat{background:#0f0f1a;border:1px solid rgba(0,230,118,.15);border-radius:8px;padding:16px;text-align:center}.stat .v{font-size:24px;font-weight:700;color:#00e676}.stat .l{font-size:11px;color:#888;margin-top:4px}@media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}}</style></head>
+<body>
+<div class="header"><h1>$ DataPipeline v2.1.0</h1><span class="badge">● Running</span></div>
+<div class="stats"><div class="stat"><div class="v">10,247</div><div class="l">Registros procesados</div></div><div class="stat"><div class="v">23ms</div><div class="l">Latencia promedio</div></div><div class="stat"><div class="v">99.8%</div><div class="l">Uptime</div></div><div class="stat"><div class="v">4</div><div class="l">Workers activos</div></div></div>
+<div class="terminal">
+<div class="line"><span class="dim">[2026-03-29 09:30:00]</span> <span class="info">INFO</span> Iniciando DataPipeline v2.1.0...</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:01]</span> <span class="ok">OK</span> Conexión a PostgreSQL establecida (pool: 10)</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:01]</span> <span class="ok">OK</span> Conexión a RabbitMQ establecida (host: mq.prod.local)</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:02]</span> <span class="ok">OK</span> Celery workers iniciados (4/4)</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:02]</span> <span class="info">INFO</span> Cargando configuración de pipelines...</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:03]</span> <span class="ok">OK</span> Pipeline 'sales_etl' inicializado</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:03]</span> <span class="ok">OK</span> Pipeline 'user_analytics' inicializado</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:03]</span> <span class="ok">OK</span> Pipeline 'inventory_sync' inicializado</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:05]</span> <span class="info">INFO</span> Ejecutando pipeline 'sales_etl'...</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:05]</span> <span class="info">INFO</span> → Extrayendo datos de API externa (batch: 1/5)</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:08]</span> <span class="ok">OK</span> → 2,048 registros extraídos (3.2s)</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:09]</span> <span class="info">INFO</span> → Transformando datos con Pandas...</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:11]</span> <span class="ok">OK</span> → Limpieza completada: 12 duplicados eliminados</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:12]</span> <span class="ok">OK</span> → Normalización de campos completada</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:13]</span> <span class="info">INFO</span> → Cargando datos en PostgreSQL...</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:15]</span> <span class="ok">OK</span> → 2,036 registros insertados exitosamente</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:16]</span> <span class="warn">WARN</span> Consumo de memoria alto: 78% (threshold: 80%)</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:17]</span> <span class="info">INFO</span> Generando reporte PDF automático...</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:20]</span> <span class="ok">OK</span> Reporte generado: /reports/sales_2026-03-29.pdf</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:21]</span> <span class="ok">OK</span> Notificación enviada a: admin@empresa.com</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:22]</span> <span class="ok">OK</span> Notificación Slack enviada a #data-team</div>
+<div class="line"><span class="dim">[2026-03-29 09:30:22]</span> <span class="info">INFO</span> Pipeline 'sales_etl' completado en 17.2s</div>
+<div class="line"><span class="prompt">$</span> <span style="animation:blink 1s infinite">_</span></div>
+</div>
+<style>@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}</style>
+</body></html>

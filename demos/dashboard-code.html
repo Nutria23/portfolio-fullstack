@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Código - Dashboard Analytics</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#1e1e2e;color:#cdd6f4;padding:0}.toolbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#181825;border-bottom:1px solid #313244;position:sticky;top:0;z-index:10}.toolbar .dots{display:flex;gap:6px}.toolbar .dots span{width:10px;height:10px;border-radius:50%}.toolbar .filename{font-size:13px;color:#a6adc8;flex:1;text-align:center}.tab-bar{display:flex;gap:0;background:#11111b;border-bottom:1px solid #313244;overflow-x:auto}.tab{padding:8px 16px;font-size:12px;color:#6c7086;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}.tab.active{color:#cdd6f4;background:#1e1e2e;border-bottom-color:#89b4fa}pre{padding:20px;font-size:13px;line-height:1.8;overflow-x:auto;counter-reset:line}.line{display:block;padding:0 16px}.line::before{counter-increment:line;content:counter(line);display:inline-block;width:40px;text-align:right;margin-right:16px;color:#45475a;font-size:12px}.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.num{color:#fab387}.op{color:#89dceb}.dec{color:#f9e2af}.typ{color:#f38ba8}
+</style></head><body>
+<div class="toolbar"><div class="dots"><span style="background:#f38ba8"></span><span style="background:#f9e2af"></span><span style="background:#a6e3a1"></span></div><span class="filename">Dashboard Analytics Pro · React + Node.js</span></div>
+<div class="tab-bar"><div class="tab active">Dashboard.jsx</div><div class="tab">api/analytics.js</div><div class="tab">models/Report.js</div><div class="tab">package.json</div></div>
+<pre>
+<span class="line"><span class="cm">// Dashboard.jsx - Componente principal de analíticas</span></span>
+<span class="line"><span class="kw">import</span> React, { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;</span>
+<span class="line"><span class="kw">import</span> { BarChart, LineChart, PieChart } <span class="kw">from</span> <span class="str">'recharts'</span>;</span>
+<span class="line"><span class="kw">import</span> { fetchAnalytics, generateReport } <span class="kw">from</span> <span class="str">'../api/analytics'</span>;</span>
+<span class="line"><span class="kw">import</span> KPICard <span class="kw">from</span> <span class="str">'../components/KPICard'</span>;</span>
+<span class="line"></span>
+<span class="line"><span class="kw">const</span> <span class="fn">Dashboard</span> = () => {</span>
+<span class="line">  <span class="kw">const</span> [data, setData] = <span class="fn">useState</span>(<span class="kw">null</span>);</span>
+<span class="line">  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>);</span>
+<span class="line">  <span class="kw">const</span> [dateRange, setDateRange] = <span class="fn">useState</span>(<span class="str">'monthly'</span>);</span>
+<span class="line"></span>
+<span class="line">  <span class="fn">useEffect</span>(() => {</span>
+<span class="line">    <span class="kw">const</span> <span class="fn">loadData</span> = <span class="kw">async</span> () => {</span>
+<span class="line">      <span class="kw">try</span> {</span>
+<span class="line">        <span class="kw">const</span> analytics = <span class="kw">await</span> <span class="fn">fetchAnalytics</span>(dateRange);</span>
+<span class="line">        <span class="fn">setData</span>(analytics);</span>
+<span class="line">      } <span class="kw">catch</span> (err) {</span>
+<span class="line">        console.<span class="fn">error</span>(<span class="str">'Error loading analytics:'</span>, err);</span>
+<span class="line">      } <span class="kw">finally</span> {</span>
+<span class="line">        <span class="fn">setLoading</span>(<span class="kw">false</span>);</span>
+<span class="line">      }</span>
+<span class="line">    };</span>
+<span class="line">    <span class="fn">loadData</span>();</span>
+<span class="line">  }, [dateRange]);</span>
+<span class="line"></span>
+<span class="line">  <span class="kw">const</span> kpis = [</span>
+<span class="line">    { title: <span class="str">'Ingresos'</span>, value: data?.revenue, icon: <span class="str">'💰'</span>, change: <span class="num">+12.5</span> },</span>
+<span class="line">    { title: <span class="str">'Usuarios'</span>, value: data?.users, icon: <span class="str">'👥'</span>, change: <span class="num">+8.3</span> },</span>
+<span class="line">    { title: <span class="str">'Conversión'</span>, value: data?.conversion, icon: <span class="str">'📈'</span>, change: <span class="num">+0.8</span> },</span>
+<span class="line">    { title: <span class="str">'Tickets'</span>, value: data?.tickets, icon: <span class="str">'🎫'</span>, change: <span class="num">-15</span> },</span>
+<span class="line">  ];</span>
+<span class="line"></span>
+<span class="line">  <span class="kw">return</span> (</span>
+<span class="line">    &lt;<span class="typ">div</span> className=<span class="str">"dashboard-container"</span>&gt;</span>
+<span class="line">      &lt;<span class="typ">header</span> className=<span class="str">"dashboard-header"</span>&gt;</span>
+<span class="line">        &lt;<span class="typ">h1</span>&gt;Dashboard Analytics&lt;/<span class="typ">h1</span>&gt;</span>
+<span class="line">        &lt;<span class="typ">DateRangePicker</span> value={dateRange} onChange={setDateRange} /&gt;</span>
+<span class="line">      &lt;/<span class="typ">header</span>&gt;</span>
+<span class="line"></span>
+<span class="line">      &lt;<span class="typ">div</span> className=<span class="str">"kpi-grid"</span>&gt;</span>
+<span class="line">        {kpis.<span class="fn">map</span>((kpi, i) =&gt; (</span>
+<span class="line">          &lt;<span class="typ">KPICard</span> key={i} {...kpi} loading={loading} /&gt;</span>
+<span class="line">        ))}</span>
+<span class="line">      &lt;/<span class="typ">div</span>&gt;</span>
+<span class="line"></span>
+<span class="line">      &lt;<span class="typ">div</span> className=<span class="str">"charts-row"</span>&gt;</span>
+<span class="line">        &lt;<span class="typ">BarChart</span> data={data?.salesByMonth} /&gt;</span>
+<span class="line">        &lt;<span class="typ">PieChart</span> data={data?.trafficSources} /&gt;</span>
+<span class="line">      &lt;/<span class="typ">div</span>&gt;</span>
+<span class="line">    &lt;/<span class="typ">div</span>&gt;</span>
+<span class="line">  );</span>
+<span class="line">};</span>
+<span class="line"></span>
+<span class="line"><span class="kw">export default</span> Dashboard;</span>
+</pre></body></html>

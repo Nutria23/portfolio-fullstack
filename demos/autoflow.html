@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoFlow System - Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0f0f23;color:#e0e0ff;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.header h1{font-size:24px;display:flex;align-items:center;gap:8px}
+.header .status-badge{padding:6px 16px;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:#00e676;border-radius:20px;font-size:12px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.device-card{background:rgba(20,20,55,.7);border:1px solid rgba(108,99,255,.15);border-radius:12px;padding:20px;transition:.3s}
+.device-card:hover{border-color:rgba(108,99,255,.4);transform:translateY(-2px)}
+.device-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.device-name{font-size:14px;font-weight:600}
+.device-status{width:10px;height:10px;border-radius:50%}
+.device-status.online{background:#00e676;box-shadow:0 0 8px #00e676}
+.device-status.offline{background:#ff5252}
+.device-status.warning{background:#ffd740}
+.device-value{font-size:28px;font-weight:700;margin-bottom:4px}
+.device-label{font-size:12px;color:#a0a0c0}
+.device-chart{display:flex;align-items:flex-end;gap:2px;height:40px;margin-top:12px}
+.device-chart div{flex:1;background:linear-gradient(to top,#6c63ff,#00d4ff);border-radius:2px;opacity:.7}
+.flow-section{background:rgba(20,20,55,.7);border:1px solid rgba(108,99,255,.15);border-radius:12px;padding:24px;margin-bottom:24px}
+.flow-section h3{font-size:16px;margin-bottom:16px}
+.pipeline{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.pipe-step{background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.2);border-radius:10px;padding:14px 18px;font-size:13px;text-align:center;flex:1;min-width:120px}
+.pipe-step .step-icon{font-size:24px;display:block;margin-bottom:6px}
+.pipe-step.active{border-color:#00e676;background:rgba(0,230,118,.08)}
+.pipe-step.processing{border-color:#ffd740;background:rgba(255,215,64,.08);animation:pulse 1.5s infinite}
+.pipe-arrow{font-size:20px;color:#6c63ff;padding:0 4px}
+.logs{background:rgba(0,0,0,.3);border-radius:8px;padding:16px;font-family:monospace;font-size:12px;max-height:200px;overflow-y:auto}
+.log-line{padding:3px 0;border-bottom:1px solid rgba(108,99,255,.05)}
+.log-time{color:#6c63ff}
+.log-success{color:#00e676}
+.log-warn{color:#ffd740}
+.log-info{color:#00d4ff}
+@media(max-width:768px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>⚡ AutoFlow System</h1>
+    <span class="status-badge">● Sistema Activo</span>
+</div>
+<div class="grid">
+    <div class="device-card">
+        <div class="device-header"><span class="device-name">🌡️ Sensor Temp A1</span><span class="device-status online"></span></div>
+        <div class="device-value" style="color:#ff6b9d">24.7°C</div>
+        <div class="device-label">Rango normal: 20-28°C</div>
+        <div class="device-chart"><div style="height:60%"></div><div style="height:70%"></div><div style="height:55%"></div><div style="height:80%"></div><div style="height:65%"></div><div style="height:72%"></div><div style="height:68%"></div><div style="height:75%"></div></div>
+    </div>
+    <div class="device-card">
+        <div class="device-header"><span class="device-name">💧 Sensor Humedad B2</span><span class="device-status online"></span></div>
+        <div class="device-value" style="color:#00d4ff">62%</div>
+        <div class="device-label">Rango normal: 40-70%</div>
+        <div class="device-chart"><div style="height:50%"></div><div style="height:65%"></div><div style="height:58%"></div><div style="height:70%"></div><div style="height:62%"></div><div style="height:55%"></div><div style="height:68%"></div><div style="height:60%"></div></div>
+    </div>
+    <div class="device-card">
+        <div class="device-header"><span class="device-name">⚡ Consumo Energético</span><span class="device-status warning"></span></div>
+        <div class="device-value" style="color:#ffd740">847W</div>
+        <div class="device-label">⚠️ Alto - Límite: 900W</div>
+        <div class="device-chart"><div style="height:45%"></div><div style="height:55%"></div><div style="height:70%"></div><div style="height:85%"></div><div style="height:90%"></div><div style="height:88%"></div><div style="height:92%"></div><div style="height:95%"></div></div>
+    </div>
+    <div class="device-card">
+        <div class="device-header"><span class="device-name">🔄 Motor Principal</span><span class="device-status online"></span></div>
+        <div class="device-value" style="color:#00e676">1,450 RPM</div>
+        <div class="device-label">Velocidad óptima</div>
+        <div class="device-chart"><div style="height:80%"></div><div style="height:82%"></div><div style="height:78%"></div><div style="height:80%"></div><div style="height:81%"></div><div style="height:79%"></div><div style="height:80%"></div><div style="height:80%"></div></div>
+    </div>
+    <div class="device-card">
+        <div class="device-header"><span class="device-name">📦 Línea Producción</span><span class="device-status online"></span></div>
+        <div class="device-value" style="color:#6c63ff">342 u/h</div>
+        <div class="device-label">Meta: 350 u/h - 97.7%</div>
+        <div class="device-chart"><div style="height:88%"></div><div style="height:92%"></div><div style="height:95%"></div><div style="height:90%"></div><div style="height:93%"></div><div style="height:97%"></div><div style="height:96%"></div><div style="height:98%"></div></div>
+    </div>
+    <div class="device-card">
+        <div class="device-header"><span class="device-name">🛑 Sensor Presión C3</span><span class="device-status offline"></span></div>
+        <div class="device-value" style="color:#ff5252">--- PSI</div>
+        <div class="device-label">⛔ Desconectado</div>
+        <div class="device-chart"><div style="height:70%"></div><div style="height:50%"></div><div style="height:30%"></div><div style="height:10%"></div><div style="height:0%"></div><div style="height:0%"></div><div style="height:0%"></div><div style="height:0%"></div></div>
+    </div>
+</div>
+<div class="flow-section">
+    <h3>🔄 Pipeline de Automatización</h3>
+    <div class="pipeline">
+        <div class="pipe-step active"><span class="step-icon">📡</span>Recopilar Datos</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step active"><span class="step-icon">🧹</span>Limpiar</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step active"><span class="step-icon">⚙️</span>Procesar</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step processing"><span class="step-icon">🤖</span>Analizar IA</div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step"><span class="step-icon">📤</span>Exportar</div>
+    </div>
+</div>
+<div class="flow-section">
+    <h3>📋 Logs del Sistema</h3>
+    <div class="logs">
+        <div class="log-line"><span class="log-time">[09:42:15]</span> <span class="log-success">✓</span> Datos del sensor A1 recibidos correctamente</div>
+        <div class="log-line"><span class="log-time">[09:42:12]</span> <span class="log-warn">⚠</span> Consumo energético alto en zona C</div>
+        <div class="log-line"><span class="log-time">[09:42:08]</span> <span class="log-success">✓</span> Pipeline de procesamiento completado - 1,024 registros</div>
+        <div class="log-line"><span class="log-time">[09:41:55]</span> <span class="log-info">ℹ</span> Modelo IA v2.3 cargado exitosamente</div>
+        <div class="log-line"><span class="log-time">[09:41:30]</span> <span class="log-success">✓</span> Conexión MQTT estable - Latencia: 12ms</div>
+        <div class="log-line"><span class="log-time">[09:41:15]</span> <span class="log-warn">⚠</span> Sensor C3 no responde - Reintentando...</div>
+        <div class="log-line"><span class="log-time">[09:40:58]</span> <span class="log-success">✓</span> Reporte automático generado y enviado</div>
+        <div class="log-line"><span class="log-time">[09:40:30]</span> <span class="log-info">ℹ</span> Backup incremental completado</div>
+    </div>
+</div>
+</body>
+</html>

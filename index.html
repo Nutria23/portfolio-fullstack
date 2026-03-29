@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portafolio de Arturo - Desarrollador Full Stack especializado en webs, apps, y sistemas automatizados. Soluciones digitales de alta calidad.">
+    <meta name="keywords" content="desarrollador full stack, portafolio, web developer, apps, sistemas automatizados, programador">
+    <title>Arturo Dev | Portafolio Full Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 3D Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Cursor Glow -->
+    <div id="cursor-glow"></div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="code-loader">
+                <span class="loader-bracket">{</span>
+                <div class="loader-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <span class="loader-bracket">}</span>
+            </div>
+            <p class="loader-text">Compilando portafolio<span class="loading-dots"></span></p>
+            <div class="loader-bar">
+                <div class="loader-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">AD</span>
+                <span class="logo-slash">/</span>
+                <span class="logo-bracket">&gt;</span>
+            </a>
+            <div class="nav-links">
+                <a href="#hero" class="nav-link active" data-section="hero">Inicio</a>
+                <a href="#about" class="nav-link" data-section="about">Sobre Mí</a>
+                <a href="#skills" class="nav-link" data-section="skills">Habilidades</a>
+                <a href="#projects" class="nav-link" data-section="projects">Proyectos</a>
+                <a href="#services" class="nav-link" data-section="services">Servicios</a>
+                <a href="#contact" class="nav-link" data-section="contact">Contacto</a>
+            </div>
+            <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#hero" class="mobile-link">Inicio</a>
+            <a href="#about" class="mobile-link">Sobre Mí</a>
+            <a href="#skills" class="mobile-link">Habilidades</a>
+            <a href="#projects" class="mobile-link">Proyectos</a>
+            <a href="#services" class="mobile-link">Servicios</a>
+            <a href="#contact" class="mobile-link">Contacto</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="section hero-section">
+        <div class="hero-content">
+            <div class="hero-badge animate-on-scroll">
+                <span class="badge-dot"></span>
+                Disponible para proyectos
+            </div>
+            <h1 class="hero-title animate-on-scroll">
+                <span class="hero-greeting">Hola, soy</span>
+                <span class="hero-name">
+                    <span class="name-letter" style="--i:0">A</span><span class="name-letter" style="--i:1">r</span><span class="name-letter" style="--i:2">t</span><span class="name-letter" style="--i:3">u</span><span class="name-letter" style="--i:4">r</span><span class="name-letter" style="--i:5">o</span>
+                </span>
+                <span class="hero-role">
+                    <span class="role-prefix">&gt;</span>
+                    <span id="typed-text" class="typed-text"></span>
+                    <span class="typed-cursor">|</span>
+                </span>
+            </h1>
+            <p class="hero-description animate-on-scroll">
+                Desarrollador Full Stack apasionado por crear experiencias digitales únicas. 
+                Transformo ideas en soluciones tecnológicas innovadoras con código limpio y diseño impactante.
+            </p>
+            <div class="hero-buttons animate-on-scroll">
+                <a href="#projects" class="btn btn-primary">
+                    <span class="btn-icon">🚀</span>
+                    Ver Proyectos
+                    <span class="btn-shine"></span>
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <span class="btn-icon">💬</span>
+                    Contáctame
+                </a>
+            </div>
+            <div class="hero-stats animate-on-scroll">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Proyectos</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Años Exp.</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="30">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Clientes</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual animate-on-scroll">
+            <div class="code-window">
+                <div class="code-header">
+                    <div class="code-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="code-title">developer.js</span>
+                </div>
+                <div class="code-body">
+                    <pre><code><span class="code-keyword">const</span> <span class="code-variable">developer</span> = {
+  <span class="code-property">nombre</span>: <span class="code-string">"Arturo"</span>,
+  <span class="code-property">rol</span>: <span class="code-string">"Full Stack Dev"</span>,
+  <span class="code-property">stack</span>: [
+    <span class="code-string">"React"</span>, <span class="code-string">"Node.js"</span>,
+    <span class="code-string">"Python"</span>, <span class="code-string">"MongoDB"</span>,
+    <span class="code-string">"Flutter"</span>, <span class="code-string">"AWS"</span>
+  ],
+  <span class="code-property">pasión</span>: <span class="code-string">"∞"</span>,
+  <span class="code-method">crearMagia</span>() {
+    <span class="code-keyword">return</span> <span class="code-string">"🚀 Soluciones"</span>;
+  }
+};</code></pre>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-dot"></div>
+            </div>
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">&lt;sobre_mí&gt;</span>
+                <h2 class="section-title">Sobre Mí</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-image-wrapper animate-on-scroll">
+                    <div class="about-image-container">
+                        <img src="developer_portrait.png" alt="Arturo - Desarrollador Full Stack" class="about-image" id="about-image">
+                        <div class="image-border-glow"></div>
+                        <div class="image-float-badge badge-top">
+                            <span>⚡</span> Full Stack
+                        </div>
+                        <div class="image-float-badge badge-bottom">
+                            <span>🎯</span> 5+ Años
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text animate-on-scroll">
+                    <h3 class="about-subtitle">
+                        Desarrollador con pasión por la <span class="text-gradient">innovación</span>
+                    </h3>
+                    <p class="about-paragraph">
+                        Soy un desarrollador Full Stack con más de 5 años de experiencia creando soluciones 
+                        digitales completas. Desde aplicaciones web interactivas hasta sistemas automatizados 
+                        complejos, mi objetivo es transformar cada idea en una experiencia tecnológica excepcional.
+                    </p>
+                    <p class="about-paragraph">
+                        Mi enfoque combina código limpio con diseño centrado en el usuario, garantizando 
+                        productos que no solo funcionan perfectamente, sino que también impactan visualmente.
+                        Trabajo con las tecnologías más modernas para entregar resultados que superan expectativas.
+                    </p>
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">🌐</div>
+                            <div>
+                                <strong>Desarrollo Web</strong>
+                                <span>React, Next.js, Vue, Angular</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">📱</div>
+                            <div>
+                                <strong>Apps Móviles</strong>
+                                <span>Flutter, React Native, Swift</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">⚙️</div>
+                            <div>
+                                <strong>Automatización</strong>
+                                <span>Python, Node.js, APIs REST</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">☁️</div>
+                            <div>
+                                <strong>Cloud & DevOps</strong>
+                                <span>AWS, Docker, CI/CD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-primary about-cta">
+                        <span class="btn-icon">📩</span>
+                        Hablemos de tu proyecto
+                        <span class="btn-shine"></span>
+                    </a>
+                </div>
+            </div>
+            <span class="section-tag closing-tag">&lt;/sobre_mí&gt;</span>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills-section">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">&lt;habilidades&gt;</span>
+                <h2 class="section-title">Tech Stack</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-category animate-on-scroll" data-category="frontend">
+                    <div class="category-header">
+                        <div class="category-icon">🎨</div>
+                        <h3>Frontend</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item" data-level="95">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">⚛️</span></div>
+                            <span class="skill-name">React</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 95%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="90">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🔺</span></div>
+                            <span class="skill-name">Next.js</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 90%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="88">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">💚</span></div>
+                            <span class="skill-name">Vue.js</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 88%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="92">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🎭</span></div>
+                            <span class="skill-name">TypeScript</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 92%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="95">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🎨</span></div>
+                            <span class="skill-name">CSS/SASS</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 95%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div class="skill-category animate-on-scroll" data-category="backend">
+                    <div class="category-header">
+                        <div class="category-icon">⚙️</div>
+                        <h3>Backend</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item" data-level="93">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🟢</span></div>
+                            <span class="skill-name">Node.js</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 93%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="90">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🐍</span></div>
+                            <span class="skill-name">Python</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 90%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="85">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">☕</span></div>
+                            <span class="skill-name">Java</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 85%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="88">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🐘</span></div>
+                            <span class="skill-name">PHP/Laravel</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 88%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="87">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🔷</span></div>
+                            <span class="skill-name">C# / .NET</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 87%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database & Cloud -->
+                <div class="skill-category animate-on-scroll" data-category="database">
+                    <div class="category-header">
+                        <div class="category-icon">🗄️</div>
+                        <h3>Base de Datos & Cloud</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item" data-level="92">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🍃</span></div>
+                            <span class="skill-name">MongoDB</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 92%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="90">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🐬</span></div>
+                            <span class="skill-name">MySQL/PostgreSQL</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 90%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="88">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🔥</span></div>
+                            <span class="skill-name">Firebase</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 88%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="85">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">☁️</span></div>
+                            <span class="skill-name">AWS</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 85%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="87">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🐳</span></div>
+                            <span class="skill-name">Docker</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 87%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile & Tools -->
+                <div class="skill-category animate-on-scroll" data-category="mobile">
+                    <div class="category-header">
+                        <div class="category-icon">📱</div>
+                        <h3>Mobile & Herramientas</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item" data-level="90">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🦋</span></div>
+                            <span class="skill-name">Flutter</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 90%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="88">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">📲</span></div>
+                            <span class="skill-name">React Native</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 88%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="92">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🔀</span></div>
+                            <span class="skill-name">Git/GitHub</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 92%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="85">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🎨</span></div>
+                            <span class="skill-name">Figma/UI-UX</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 85%"></div></div>
+                        </div>
+                        <div class="skill-item" data-level="83">
+                            <div class="skill-icon-wrapper"><span class="skill-emoji">🤖</span></div>
+                            <span class="skill-name">AI/ML</span>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--level: 83%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="section-tag closing-tag">&lt;/habilidades&gt;</span>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects-section">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">&lt;proyectos&gt;</span>
+                <h2 class="section-title">Proyectos Destacados</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="projects-filter animate-on-scroll">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="web">Web Apps</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn" data-filter="system">Sistemas</button>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card animate-on-scroll" data-type="web">
+                    <div class="project-image-container">
+                        <img src="project_webapp.png" alt="Dashboard Analytics" class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <a href="#" class="project-link-btn" title="Ver Demo">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    Demo
+                                </a>
+                                <a href="#" class="project-link-btn" title="Ver Código">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                                    Código
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-badge">⭐ Destacado</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Dashboard Analytics Pro</h3>
+                        <p class="project-description">Sistema completo de analíticas con visualización de datos en tiempo real, reportes automatizados y panel de administración intuitivo.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">D3.js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card animate-on-scroll" data-type="mobile">
+                    <div class="project-image-container">
+                        <img src="project_mobileapp.png" alt="FitTrack App" class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <a href="#" class="project-link-btn" title="Ver Demo">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    Demo
+                                </a>
+                                <a href="#" class="project-link-btn" title="Ver Código">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                                    Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">FitTrack App</h3>
+                        <p class="project-description">Aplicación móvil de fitness con seguimiento de entrenamientos, estadísticas avanzadas, planes personalizados y integración con wearables.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Dart</span>
+                            <span class="tech-tag">REST API</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card animate-on-scroll" data-type="system">
+                    <div class="project-image-container">
+                        <img src="project_automation.png" alt="AutoFlow System" class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <a href="#" class="project-link-btn" title="Ver Demo">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    Demo
+                                </a>
+                                <a href="#" class="project-link-btn" title="Ver Código">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                                    Código
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-badge">🔥 Popular</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">AutoFlow System</h3>
+                        <p class="project-description">Sistema de automatización industrial con monitoreo IoT en tiempo real, flujos de trabajo inteligentes y control remoto de dispositivos.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">AWS IoT</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">MQTT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card animate-on-scroll" data-type="web">
+                    <div class="project-image-container">
+                        <img src="project_ecommerce.png" alt="LuxShop E-Commerce" class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <a href="#" class="project-link-btn" title="Ver Demo">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    Demo
+                                </a>
+                                <a href="#" class="project-link-btn" title="Ver Código">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                                    Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">LuxShop E-Commerce</h3>
+                        <p class="project-description">Plataforma e-commerce premium con carrito inteligente, pasarela de pagos, gestión de inventario y panel de vendedores.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">Stripe</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card animate-on-scroll" data-type="web">
+                    <div class="project-image-container">
+                        <img src="project_saas.png" alt="TeamSync SaaS" class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <a href="#" class="project-link-btn" title="Ver Demo">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    Demo
+                                </a>
+                                <a href="#" class="project-link-btn" title="Ver Código">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                                    Código
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-badge">🆕 Nuevo</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">TeamSync SaaS</h3>
+                        <p class="project-description">Plataforma SaaS de gestión de proyectos con tableros Kanban, chat en tiempo real, tracking de tareas y colaboración de equipos.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">GraphQL</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Socket.io</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card animate-on-scroll" data-type="system">
+                    <div class="project-image-container">
+                        <div class="project-image project-image-gradient">
+                            <div class="gradient-project-content">
+                                <div class="terminal-mockup">
+                                    <div class="terminal-line"><span class="terminal-prompt">$</span> python automate.py --mode=full</div>
+                                    <div class="terminal-line"><span class="terminal-success">✓</span> Conectando con API...</div>
+                                    <div class="terminal-line"><span class="terminal-success">✓</span> Procesando 10,000 registros</div>
+                                    <div class="terminal-line"><span class="terminal-success">✓</span> Generando reportes PDF</div>
+                                    <div class="terminal-line"><span class="terminal-success">✓</span> Enviando notificaciones</div>
+                                    <div class="terminal-line blink"><span class="terminal-prompt">$</span> <span class="terminal-cursor">_</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <a href="#" class="project-link-btn" title="Ver Demo">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                    Demo
+                                </a>
+                                <a href="#" class="project-link-btn" title="Ver Código">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,18 22,12 16,6"/><polyline points="8,6 2,12 8,18"/></svg>
+                                    Código
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">DataPipeline Automation</h3>
+                        <p class="project-description">Pipeline de automatización de datos con procesamiento masivo, generación de reportes, integración con APIs externas y notificaciones inteligentes.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Celery</span>
+                            <span class="tech-tag">RabbitMQ</span>
+                            <span class="tech-tag">Pandas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="section-tag closing-tag">&lt;/proyectos&gt;</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services-section">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">&lt;servicios&gt;</span>
+                <h2 class="section-title">Mis Servicios</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon-wrapper">
+                        <div class="service-icon">🌐</div>
+                        <div class="service-icon-bg"></div>
+                    </div>
+                    <h3 class="service-title">Desarrollo Web</h3>
+                    <p class="service-description">Sitios web y aplicaciones web modernas, responsivas y optimizadas para SEO. Desde landing pages hasta plataformas complejas.</p>
+                    <ul class="service-features">
+                        <li>Landing Pages & Corporativos</li>
+                        <li>E-Commerce & Tiendas Online</li>
+                        <li>Dashboards & Admin Panels</li>
+                        <li>PWAs & SPAs</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Desde</span>
+                        <span class="price-amount">$150 USD</span>
+                    </div>
+                </div>
+
+                <div class="service-card featured animate-on-scroll">
+                    <div class="service-popular-badge">Más Popular</div>
+                    <div class="service-icon-wrapper">
+                        <div class="service-icon">📱</div>
+                        <div class="service-icon-bg"></div>
+                    </div>
+                    <h3 class="service-title">Apps Móviles</h3>
+                    <p class="service-description">Aplicaciones nativas y multiplataforma de alto rendimiento para iOS y Android con diseño UX/UI premium.</p>
+                    <ul class="service-features">
+                        <li>Apps iOS & Android</li>
+                        <li>Flutter & React Native</li>
+                        <li>Integración con APIs</li>
+                        <li>Publicación en Stores</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Desde</span>
+                        <span class="price-amount">$350 USD</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon-wrapper">
+                        <div class="service-icon">⚡</div>
+                        <div class="service-icon-bg"></div>
+                    </div>
+                    <h3 class="service-title">Sistemas Automatizados</h3>
+                    <p class="service-description">Automatización de procesos empresariales, bots, scrapers, y sistemas de monitoreo para optimizar tu negocio.</p>
+                    <ul class="service-features">
+                        <li>Automatización de Procesos</li>
+                        <li>Bots & Web Scraping</li>
+                        <li>Integración de APIs</li>
+                        <li>Reportes Automáticos</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Desde</span>
+                        <span class="price-amount">$200 USD</span>
+                    </div>
+                </div>
+
+                <div class="service-card animate-on-scroll">
+                    <div class="service-icon-wrapper">
+                        <div class="service-icon">🛠️</div>
+                        <div class="service-icon-bg"></div>
+                    </div>
+                    <h3 class="service-title">Sistemas a Medida</h3>
+                    <p class="service-description">Software personalizado según tus necesidades: ERP, CRM, inventarios, punto de venta, gestión empresarial completa.</p>
+                    <ul class="service-features">
+                        <li>ERP & CRM Personalizados</li>
+                        <li>Sistemas de Inventario</li>
+                        <li>Punto de Venta (POS)</li>
+                        <li>Gestión Empresarial</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Desde</span>
+                        <span class="price-amount">$500 USD</span>
+                    </div>
+                </div>
+            </div>
+            <span class="section-tag closing-tag">&lt;/servicios&gt;</span>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section testimonials-section">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">&lt;testimonios&gt;</span>
+                <h2 class="section-title">Lo que dicen mis clientes</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="testimonials-carousel">
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Arturo transformó nuestra visión en una plataforma web excepcional. Su atención al detalle y capacidad técnica son impresionantes. El proyecto se entregó antes de tiempo."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MC</div>
+                        <div>
+                            <strong>María Castro</strong>
+                            <span>CEO, TechStart MX</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"La app móvil que desarrolló para nuestro negocio aumentó nuestras ventas un 40%. Profesional, puntual y con un diseño que supera cualquier expectativa."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RL</div>
+                        <div>
+                            <strong>Roberto López</strong>
+                            <span>Director, FoodDelivery Pro</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"El sistema de automatización que implementó nos ahorró 200 horas mensuales de trabajo manual. Inversión que se pagó sola en el primer mes. ¡Totalmente recomendado!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AG</div>
+                        <div>
+                            <strong>Ana García</strong>
+                            <span>CTO, LogiTrack Solutions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="section-tag closing-tag">&lt;/testimonios&gt;</span>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-tag">&lt;contacto&gt;</span>
+                <h2 class="section-title">¿Tienes un proyecto en mente?</h2>
+                <div class="section-line"></div>
+                <p class="section-subtitle">Hablemos y hagámoslo realidad juntos</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info animate-on-scroll">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">📧</div>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:arturo@dev.com">arturo@dev.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon">📱</div>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <a href="https://wa.me/521234567890">+52 123 456 7890</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon">💼</div>
+                        <div>
+                            <h4>LinkedIn</h4>
+                            <a href="#">/in/arturo-dev</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-icon">🐙</div>
+                        <div>
+                            <h4>GitHub</h4>
+                            <a href="#">github.com/arturo-dev</a>
+                        </div>
+                    </div>
+                    <div class="contact-social-links">
+                        <a href="#" class="social-link" title="GitHub">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <form id="contact-form" class="contact-form animate-on-scroll">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                        <div class="input-highlight"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Tipo de Servicio</label>
+                        <select id="service" name="service">
+                            <option value="">Selecciona un servicio</option>
+                            <option value="web">Desarrollo Web</option>
+                            <option value="mobile">App Móvil</option>
+                            <option value="automation">Sistema Automatizado</option>
+                            <option value="custom">Sistema a Medida</option>
+                            <option value="other">Otro</option>
+                        </select>
+                        <div class="input-highlight"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Cuéntame sobre tu proyecto..." required></textarea>
+                        <div class="input-highlight"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <span class="btn-icon">🚀</span>
+                        Enviar Mensaje
+                        <span class="btn-shine"></span>
+                    </button>
+                </form>
+            </div>
+            <span class="section-tag closing-tag">&lt;/contacto&gt;</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#hero" class="nav-logo">
+                        <span class="logo-bracket">&lt;</span>
+                        <span class="logo-text">AD</span>
+                        <span class="logo-slash">/</span>
+                        <span class="logo-bracket">&gt;</span>
+                    </a>
+                    <p>Transformando ideas en experiencias digitales excepcionales.</p>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Navegación</h4>
+                    <a href="#hero">Inicio</a>
+                    <a href="#about">Sobre Mí</a>
+                    <a href="#projects">Proyectos</a>
+                    <a href="#contact">Contacto</a>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Servicios</h4>
+                    <a href="#services">Desarrollo Web</a>
+                    <a href="#services">Apps Móviles</a>
+                    <a href="#services">Automatización</a>
+                    <a href="#services">Sistemas a Medida</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Arturo Dev. Todos los derechos reservados. Hecho con <span class="heart">❤️</span> y mucho ☕</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" class="back-to-top" aria-label="Volver arriba">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18,15 12,9 6,15"/></svg>
+    </button>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

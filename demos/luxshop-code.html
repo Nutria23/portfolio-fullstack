@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Código - LuxShop</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Courier New',monospace;background:#1e1e2e;color:#cdd6f4}.toolbar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#181825;border-bottom:1px solid #313244;position:sticky;top:0}.toolbar .dots{display:flex;gap:6px}.toolbar .dots span{width:10px;height:10px;border-radius:50%}.toolbar .filename{font-size:13px;color:#a6adc8;flex:1;text-align:center}.tab-bar{display:flex;background:#11111b;border-bottom:1px solid #313244;overflow-x:auto}.tab{padding:8px 16px;font-size:12px;color:#6c7086;border-bottom:2px solid transparent;white-space:nowrap}.tab.active{color:#cdd6f4;background:#1e1e2e;border-bottom-color:#89b4fa}pre{padding:20px;font-size:13px;line-height:1.8;overflow-x:auto;counter-reset:line}.line{display:block;padding:0 16px}.line::before{counter-increment:line;content:counter(line);display:inline-block;width:40px;text-align:right;margin-right:16px;color:#45475a;font-size:12px}.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#6c7086;font-style:italic}.num{color:#fab387}.typ{color:#f38ba8}</style></head><body>
+<div class="toolbar"><div class="dots"><span style="background:#f38ba8"></span><span style="background:#f9e2af"></span><span style="background:#a6e3a1"></span></div><span class="filename">LuxShop E-Commerce · Next.js + Stripe</span></div>
+<div class="tab-bar"><div class="tab active">pages/products.tsx</div><div class="tab">api/checkout.ts</div><div class="tab">prisma/schema.prisma</div></div>
+<pre>
+<span class="line"><span class="cm">// pages/products.tsx - Catálogo de productos</span></span>
+<span class="line"><span class="kw">import</span> { <span class="typ">GetServerSideProps</span> } <span class="kw">from</span> <span class="str">'next'</span>;</span>
+<span class="line"><span class="kw">import</span> { prisma } <span class="kw">from</span> <span class="str">'@/lib/prisma'</span>;</span>
+<span class="line"><span class="kw">import</span> ProductCard <span class="kw">from</span> <span class="str">'@/components/ProductCard'</span>;</span>
+<span class="line"><span class="kw">import</span> { useCart } <span class="kw">from</span> <span class="str">'@/hooks/useCart'</span>;</span>
+<span class="line"></span>
+<span class="line"><span class="kw">interface</span> <span class="typ">Product</span> {</span>
+<span class="line">  id: <span class="typ">string</span>;</span>
+<span class="line">  name: <span class="typ">string</span>;</span>
+<span class="line">  price: <span class="typ">number</span>;</span>
+<span class="line">  image: <span class="typ">string</span>;</span>
+<span class="line">  rating: <span class="typ">number</span>;</span>
+<span class="line">  category: <span class="typ">string</span>;</span>
+<span class="line">}</span>
+<span class="line"></span>
+<span class="line"><span class="kw">export const</span> <span class="fn">getServerSideProps</span>: <span class="typ">GetServerSideProps</span> = <span class="kw">async</span> (ctx) => {</span>
+<span class="line">  <span class="kw">const</span> products = <span class="kw">await</span> prisma.product.<span class="fn">findMany</span>({</span>
+<span class="line">    where: { isActive: <span class="kw">true</span> },</span>
+<span class="line">    orderBy: { createdAt: <span class="str">'desc'</span> },</span>
+<span class="line">    include: { reviews: <span class="kw">true</span> },</span>
+<span class="line">  });</span>
+<span class="line">  <span class="kw">return</span> { props: { products } };</span>
+<span class="line">};</span>
+<span class="line"></span>
+<span class="line"><span class="kw">export default function</span> <span class="fn">Products</span>({ products }: { products: <span class="typ">Product</span>[] }) {</span>
+<span class="line">  <span class="kw">const</span> { addToCart, cartCount } = <span class="fn">useCart</span>();</span>
+<span class="line"></span>
+<span class="line">  <span class="kw">return</span> (</span>
+<span class="line">    &lt;<span class="typ">main</span> className=<span class="str">"products-page"</span>&gt;</span>
+<span class="line">      &lt;<span class="typ">h1</span>&gt;Colección Premium&lt;/<span class="typ">h1</span>&gt;</span>
+<span class="line">      &lt;<span class="typ">div</span> className=<span class="str">"grid"</span>&gt;</span>
+<span class="line">        {products.<span class="fn">map</span>(product =&gt; (</span>
+<span class="line">          &lt;<span class="typ">ProductCard</span></span>
+<span class="line">            key={product.id}</span>
+<span class="line">            product={product}</span>
+<span class="line">            onAddToCart={() =&gt; <span class="fn">addToCart</span>(product)}</span>
+<span class="line">          /&gt;</span>
+<span class="line">        ))}</span>
+<span class="line">      &lt;/<span class="typ">div</span>&gt;</span>
+<span class="line">    &lt;/<span class="typ">main</span>&gt;</span>
+<span class="line">  );</span>
+<span class="line">}</span>
+</pre></body></html>

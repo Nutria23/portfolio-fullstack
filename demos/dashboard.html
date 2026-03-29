@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Analytics Pro - Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0f0f23;color:#e0e0ff;overflow-x:hidden}
+.sidebar{position:fixed;left:0;top:0;width:220px;height:100vh;background:#0a0a1e;border-right:1px solid rgba(108,99,255,.2);padding:20px 0}
+.sidebar h2{padding:0 20px 20px;font-size:18px;background:linear-gradient(135deg,#6c63ff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar a{display:flex;align-items:center;gap:10px;padding:12px 20px;color:#a0a0c0;font-size:14px;text-decoration:none;transition:.2s}
+.sidebar a:hover,.sidebar a.active{background:rgba(108,99,255,.1);color:#e0e0ff;border-right:3px solid #6c63ff}
+.main{margin-left:220px;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.header h1{font-size:24px}
+.header .date{color:#a0a0c0;font-size:14px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.kpi-card{background:rgba(20,20,55,.7);border:1px solid rgba(108,99,255,.15);border-radius:12px;padding:20px}
+.kpi-card .label{font-size:13px;color:#a0a0c0;margin-bottom:8px}
+.kpi-card .value{font-size:28px;font-weight:700}
+.kpi-card .change{font-size:12px;margin-top:4px}
+.kpi-card .change.up{color:#00e676}
+.kpi-card .change.down{color:#ff5252}
+.charts{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:28px}
+.chart-card{background:rgba(20,20,55,.7);border:1px solid rgba(108,99,255,.15);border-radius:12px;padding:20px}
+.chart-card h3{font-size:16px;margin-bottom:16px}
+.chart-bar-container{display:flex;align-items:flex-end;gap:8px;height:160px;padding-top:10px}
+.chart-bar{flex:1;background:linear-gradient(to top,#6c63ff,#00d4ff);border-radius:4px 4px 0 0;transition:.3s;cursor:pointer;position:relative;min-width:0}
+.chart-bar:hover{opacity:.8;transform:scaleY(1.05);transform-origin:bottom}
+.chart-bar span{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:10px;color:#a0a0c0}
+.donut{width:150px;height:150px;border-radius:50%;background:conic-gradient(#6c63ff 0% 35%,#00d4ff 35% 60%,#ff6b9d 60% 80%,#ffd740 80% 100%);margin:0 auto;position:relative}
+.donut::after{content:'';position:absolute;inset:30px;border-radius:50%;background:#141432}
+.donut-legend{margin-top:16px;font-size:12px;color:#a0a0c0}
+.donut-legend div{display:flex;align-items:center;gap:8px;padding:4px 0}
+.donut-legend span{width:10px;height:10px;border-radius:3px;display:inline-block}
+.table-card{background:rgba(20,20,55,.7);border:1px solid rgba(108,99,255,.15);border-radius:12px;padding:20px}
+.table-card h3{font-size:16px;margin-bottom:16px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px;font-size:12px;color:#a0a0c0;border-bottom:1px solid rgba(108,99,255,.1)}
+td{padding:10px;font-size:13px;border-bottom:1px solid rgba(108,99,255,.05)}
+.status{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.status.active{background:rgba(0,230,118,.1);color:#00e676}
+.status.pending{background:rgba(255,215,64,.1);color:#ffd740}
+.status.inactive{background:rgba(255,82,82,.1);color:#ff5252}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0}.kpi-grid{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="sidebar">
+    <h2>📊 Analytics Pro</h2>
+    <a href="#" class="active">📈 Dashboard</a>
+    <a href="#">👥 Usuarios</a>
+    <a href="#">📦 Productos</a>
+    <a href="#">💰 Ventas</a>
+    <a href="#">📋 Reportes</a>
+    <a href="#">⚙️ Configuración</a>
+</div>
+<div class="main">
+    <div class="header">
+        <h1>Dashboard Overview</h1>
+        <span class="date">📅 Marzo 2026</span>
+    </div>
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="label">Ingresos Totales</div>
+            <div class="value" style="color:#00d4ff">$48,250</div>
+            <div class="change up">↑ +12.5% vs mes anterior</div>
+        </div>
+        <div class="kpi-card">
+            <div class="label">Usuarios Activos</div>
+            <div class="value" style="color:#6c63ff">2,847</div>
+            <div class="change up">↑ +8.3% vs mes anterior</div>
+        </div>
+        <div class="kpi-card">
+            <div class="label">Tasa de Conversión</div>
+            <div class="value" style="color:#00e676">4.2%</div>
+            <div class="change up">↑ +0.8% vs mes anterior</div>
+        </div>
+        <div class="kpi-card">
+            <div class="label">Tickets Abiertos</div>
+            <div class="value" style="color:#ff6b9d">23</div>
+            <div class="change down">↓ -15% vs mes anterior</div>
+        </div>
+    </div>
+    <div class="charts">
+        <div class="chart-card">
+            <h3>📊 Ventas Mensuales</h3>
+            <div class="chart-bar-container">
+                <div class="chart-bar" style="height:60%"><span>Ene</span></div>
+                <div class="chart-bar" style="height:75%"><span>Feb</span></div>
+                <div class="chart-bar" style="height:45%"><span>Mar</span></div>
+                <div class="chart-bar" style="height:80%"><span>Abr</span></div>
+                <div class="chart-bar" style="height:90%"><span>May</span></div>
+                <div class="chart-bar" style="height:65%"><span>Jun</span></div>
+                <div class="chart-bar" style="height:85%"><span>Jul</span></div>
+                <div class="chart-bar" style="height:70%"><span>Ago</span></div>
+                <div class="chart-bar" style="height:95%"><span>Sep</span></div>
+                <div class="chart-bar" style="height:88%"><span>Oct</span></div>
+                <div class="chart-bar" style="height:78%"><span>Nov</span></div>
+                <div class="chart-bar" style="height:100%"><span>Dic</span></div>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>🍩 Tráfico por Fuente</h3>
+            <div class="donut"></div>
+            <div class="donut-legend">
+                <div><span style="background:#6c63ff"></span> Orgánico - 35%</div>
+                <div><span style="background:#00d4ff"></span> Social - 25%</div>
+                <div><span style="background:#ff6b9d"></span> Directo - 20%</div>
+                <div><span style="background:#ffd740"></span> Referidos - 20%</div>
+            </div>
+        </div>
+    </div>
+    <div class="table-card">
+        <h3>📋 Últimas Transacciones</h3>
+        <table>
+            <tr><th>ID</th><th>Cliente</th><th>Producto</th><th>Monto</th><th>Estado</th></tr>
+            <tr><td>#2841</td><td>María García</td><td>Plan Premium</td><td>$299</td><td><span class="status active">Completado</span></td></tr>
+            <tr><td>#2840</td><td>Carlos López</td><td>API Access</td><td>$149</td><td><span class="status active">Completado</span></td></tr>
+            <tr><td>#2839</td><td>Ana Rodríguez</td><td>Consultoría</td><td>$500</td><td><span class="status pending">Pendiente</span></td></tr>
+            <tr><td>#2838</td><td>José Martínez</td><td>Plan Basic</td><td>$99</td><td><span class="status active">Completado</span></td></tr>
+            <tr><td>#2837</td><td>Laura Sánchez</td><td>Soporte Ext.</td><td>$75</td><td><span class="status inactive">Cancelado</span></td></tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
