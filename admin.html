@@ -452,12 +452,15 @@
             const query = document.getElementById('global-search').value.toLowerCase();
             
             const filtered = fullData.filter(r => {
-                // Filtro de Búsqueda
-                const matchSearch = (r.nombre || '').toLowerCase().includes(query) || (r.email || '').toLowerCase().includes(query);
+                // Filtro de Búsqueda estricto como String para evitar crashes si el valor es numérico en excel (ej. 123)
+                const sName = String(r.nombre || '').toLowerCase();
+                const sEmail = String(r.email || '').toLowerCase();
+                
+                const matchSearch = sName.includes(query) || sEmail.includes(query);
                 if (!matchSearch) return false;
 
                 // Filtro de Sección
-                const st = (r.estado || 'Por Responder').toLowerCase();
+                const st = String(r.estado || 'Por Responder').toLowerCase();
                 const isProject = st.includes('cita') || st.includes('progreso') || st.includes('completado');
                 
                 if (activeView === 'inbox') return !isProject;
@@ -484,7 +487,8 @@
                     fd = d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
                 }
 
-                const n = row.nombre || 'Anónimo';
+                // Castear a String para evitar errores .trim()
+                const n = String(row.nombre || 'Anónimo');
                 const initial = n.trim().charAt(0).toUpperCase();
                 const stClass = getStatusClass(row.estado);
 
