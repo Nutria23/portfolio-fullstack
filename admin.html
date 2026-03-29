@@ -572,31 +572,29 @@
             const link_web = document.getElementById('edit-link').value;
             const notas = document.getElementById('edit-notas').value;
 
-            btn.innerHTML = 'Guardando...';
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> Guardando...';
             btn.disabled = true;
 
-            const payload = {
-                action: 'update',
-                apiKey: currentApiKey,
-                rowIndex: rowIndex,
-                estado: estado,
-                presupuesto: presupuesto,
-                link_web: link_web,
-                notas: notas
-            };
+            // FIX: Enviar como Form Data (application/x-www-form-urlencoded) para que Google Apps Script lo lea correctamente en e.parameter
+            const params = new URLSearchParams();
+            params.append('action', 'update');
+            params.append('apiKey', currentApiKey);
+            params.append('rowIndex', rowIndex);
+            params.append('estado', estado);
+            params.append('presupuesto', presupuesto);
+            params.append('link_web', link_web);
+            params.append('notas', notas);
 
             try {
-                // Apps Script requiere formData o raw string para POST desde Fetch a veces, pero JSON stringified body funciona si esta bien formateado.
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Truco para evitar preflight CORS duro en Google Script
-                    body: JSON.stringify(payload)
+                    body: params
                 });
                 
                 const result = await response.json();
                 
                 if(result.result === 'success') {
-                    // Actualizar memoria local para no tener refetch forzoso
+                    // Actualizar memoria local
                     const rowObj = fullData.find(r => (r.rowindex || r.rowIndex) == rowIndex);
                     if (rowObj) {
                         rowObj.estado = estado;
@@ -605,15 +603,16 @@
                         rowObj.notas = notas;
                     }
                     
-                    showToast("Atributos actualizados con éxito");
+                    showToast("¡Cliente Actualizado con Éxito! 🚀");
                     closePanel();
-                    processData(fullData); // Renderiza y actualiza los badges visualmente
+                    renderCurrentView(); // Actualizar visualmente la tabla
+                    updateBadges();      // Actualizar los numeritos del sidebar
                 } else {
                     throw new Error(result.error || "Fallo en backend");
                 }
             } catch (err) {
-                console.error(err);
-                alert("Error al guardar: Asegurate de haber actualizado el código de Google Apps Script.");
+                console.error("Error completo:", err);
+                alert("Hubo un error al guardar. Asegúrate de tener conexión y de que el SCRIPT_URL es el correcto.");
             } finally {
                 btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Guardar Cambios`;
                 btn.disabled = false;
