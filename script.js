@@ -431,18 +431,44 @@ window.addEventListener('load', () => {
     const form = document.getElementById('contact-form');
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSbfUKl5WDQ9sJXQ9o5RHi2WomwsDVsED0TqQ4ytucTfM9PsRwnQGojtTdCay8akCaTA/exec';
+
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('.btn-submit');
         const orig = btn.innerHTML;
-        btn.innerHTML = '<span class="btn-icon">✅</span> ¡Mensaje Enviado!';
-        btn.style.background = 'linear-gradient(135deg, #00e676, #00d4ff)';
+        
+        // Estado de carga
+        btn.innerHTML = '<span class="btn-icon">⏳</span> Enviando...';
         btn.disabled = true;
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // Éxito
+                btn.innerHTML = '<span class="btn-icon">✅</span> ¡Mensaje Enviado!';
+                btn.style.background = 'linear-gradient(135deg, #00e676, #00d4ff)';
+                form.reset();
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        } catch (error) {
+            console.error('Error al enviar el formulario:', error);
+            // Error
+            btn.innerHTML = '<span class="btn-icon">❌</span> Error al enviar';
+            btn.style.background = 'linear-gradient(135deg, #ff5252, #ff1744)';
+        }
+
+        // Restaurar botón después de 3 segundos
         setTimeout(() => {
             btn.innerHTML = orig;
             btn.style.background = '';
             btn.disabled = false;
-            form.reset();
         }, 3000);
     });
 })();
