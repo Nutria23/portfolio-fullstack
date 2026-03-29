@@ -443,10 +443,11 @@ window.addEventListener('load', () => {
         btn.disabled = true;
 
         try {
-            const formData = new FormData(form);
+            // FIX: Enviar formulario estructurado para evitar que Google Apps Script ignore los campos multipartes
+            const params = new URLSearchParams(new FormData(form));
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                body: formData
+                body: params
             });
 
             if (response.ok) {
