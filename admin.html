@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto Admin - Dashboard</title>
+    <title>Admin CRM - Portafolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0a0a16;
-            --bg-card: rgba(20, 20, 40, 0.7);
+            --bg-dark: #070710;
+            --bg-sidebar: #0a0a16;
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --bg-hover: rgba(108, 99, 255, 0.1);
             --text-main: #f0f0f5;
             --text-muted: #8e8eab;
             --accent-primary: #6c63ff;
             --accent-secondary: #00d4ff;
-            --border-color: rgba(108, 99, 255, 0.2);
+            --accent-success: #00e676;
+            --accent-warning: #ffd740;
+            --accent-danger: #ff5252;
+            --border-color: rgba(108, 99, 255, 0.15);
             --gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --shadow-glow: 0 0 20px rgba(108, 99, 255, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -23,111 +29,140 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* --- SVG ICONS --- */
+        svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+        
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            position: fixed; inset: 0; background: var(--bg-dark); z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             background-image: radial-gradient(circle at 15% 50%, rgba(108, 99, 255, 0.08), transparent 25%),
                               radial-gradient(circle at 85% 30%, rgba(0, 212, 255, 0.08), transparent 25%);
+            transition: opacity 0.5s;
         }
-
-        /* ----- LOGIN SCREEN ----- */
-        #login-screen {
-            position: fixed; inset: 0;
-            background: var(--bg-dark);
-            z-index: 1000;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            transition: opacity 0.5s ease;
+        .login-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); width: 100%; max-width: 400px; text-align: center; box-shadow: var(--shadow-glow); }
+        .login-card h2 { font-family: 'Space Grotesk', sans-serif; margin-bottom: 24px; font-size: 28px; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .input-group { margin-bottom: 24px; text-align: left; }
+        .input-group label { display: block; color: var(--text-muted); font-size: 14px; margin-bottom: 8px; font-weight: 500; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 14px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color);
+            border-radius: 10px; color: white; font-size: 15px; outline: none; transition: border-color 0.3s;
         }
-
-        .login-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 40px; border-radius: 20px;
-            backdrop-filter: blur(10px);
-            width: 100%; max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .login-card h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            margin-bottom: 24px; font-size: 28px;
-            background: var(--gradient);
-            -webkit-background-clip: text; background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .input-group { margin-bottom: 24px; }
-        .input-group input {
-            width: 100%; padding: 16px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            border-radius: 12px; color: white;
-            font-size: 16px; outline: none; transition: border-color 0.3s;
-        }
-        .input-group input:focus { border-color: var(--accent-secondary); }
-
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--accent-secondary); }
+        
         .btn {
-            background: var(--gradient); color: white; border: none;
-            padding: 16px 32px; border-radius: 12px;
-            font-size: 16px; font-weight: 600; cursor: pointer; width: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--gradient); color: white; border: none; padding: 14px 24px; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg-hover); border-color: var(--accent-primary); }
+        .btn-success { background: linear-gradient(135deg, #00b09b, #96c93d); }
+
+        /* --- APP LAYOUT --- */
+        #app-layout { display: none; width: 100%; height: 100vh; }
+        #app-layout.active { display: flex; }
+
+        /* --- SIDEBAR --- */
+        .sidebar { width: 280px; background: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 0; }
+        .sidebar-brand { padding: 0 24px 32px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px; }
+        .sidebar-brand svg { color: var(--accent-secondary); width: 28px; height: 28px; }
+        .sidebar-brand h2 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+
+        .nav-menu { flex-grow: 1; display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; color: var(--text-muted);
+            text-decoration: none; font-weight: 500; cursor: pointer; transition: all 0.2s ease;
         }
+        .nav-item:hover { color: var(--text-main); background: var(--bg-hover); }
+        .nav-item.active { color: white; background: rgba(108, 99, 255, 0.15); border-left: 3px solid var(--accent-secondary); border-radius: 0 10px 10px 0; }
+        .nav-item .badge-count { margin-left: auto; background: var(--accent-primary); color: white; font-size: 12px; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
 
-        /* ----- DASHBOARD ----- */
-        #dashboard {
-            display: none; width: 100%; max-width: 1400px; margin: 0 auto; padding: 40px 24px;
-            flex-direction: column; opacity: 0; transition: opacity 0.5s ease;
-        }
-        #dashboard.active { display: flex; opacity: 1; }
+        /* --- MAIN CONTENT --- */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; background: var(--bg-dark); overflow: hidden; position: relative; }
+        .topbar { height: 80px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; background: rgba(10, 10, 22, 0.8); backdrop-filter: blur(10px); z-index: 10; }
+        
+        .search-container { position: relative; width: 350px; }
+        .search-container svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px; }
+        .search-container input { width: 100%; padding: 12px 16px 12px 44px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; color: white; outline: none; }
+        .search-container input:focus { border-color: var(--accent-primary); box-shadow: 0 0 10px rgba(108, 99, 255, 0.1); }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 32px; }
+        .content-area { flex-grow: 1; overflow-y: auto; padding: 40px; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px; }
-        .stat-card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 20px;
-        }
-        .stat-icon { width: 50px; height: 50px; border-radius: 12px; background: rgba(108, 99, 255, 0.1); color: var(--accent-secondary); display: flex; justify-content: center; align-items: center; font-size: 24px; }
-        .stat-info h3 { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-info p { font-size: 32px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+        .view-section { display: none; animation: fadeIn 0.4s ease; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .table-container { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .table-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
-        .search-box input { background: var(--bg-dark); border: 1px solid var(--border-color); padding: 12px 20px; border-radius: 8px; color: white; width: 300px; outline: none; }
-        .search-box input:focus { border-color: var(--accent-secondary); }
+        .page-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .page-header h1 { font-family: 'Space Grotesk', sans-serif; font-size: 32px; margin-bottom: 8px; }
+        .page-header p { color: var(--text-muted); font-size: 15px; }
 
-        .table-wrapper { overflow-x: auto; }
+        /* --- DATA TABLE --- */
+        .card-table { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 20px 24px; border-bottom: 1px solid rgba(108, 99, 255, 0.1); }
-        th { font-weight: 600; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(0,0,0,0.1); }
-        tr:hover td { background: rgba(108, 99, 255, 0.05); }
+        th, td { padding: 16px 24px; border-bottom: 1px solid var(--border-color); }
+        th { font-weight: 600; color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; background: rgba(0,0,0,0.2); }
+        tr:hover td { background: var(--bg-hover); }
+        tr { cursor: pointer; transition: background 0.2s; }
+        
+        .td-name { font-weight: 600; color: white; display: flex; align-items: center; gap: 12px; }
+        .td-name .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
+        .td-date { color: var(--text-muted); font-size: 13px; }
+        .td-msg { max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
 
-        .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: rgba(108, 99, 255, 0.15); color: var(--accent-secondary); border: 1px solid rgba(0, 212, 255, 0.2); }
-        .message-cell { max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; color: var(--accent-secondary); font-weight: 500; }
-        .message-cell:hover { text-decoration: underline; }
+        /* --- BADGES --- */
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+        .status-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
+        .status-por-responder { background: rgba(255, 82, 82, 0.1); color: var(--accent-danger); border: 1px solid rgba(255, 82, 82, 0.2); }
+        .status-por-responder::before { background: var(--accent-danger); }
+        .status-respondido { background: rgba(255, 215, 64, 0.1); color: var(--accent-warning); border: 1px solid rgba(255, 215, 64, 0.2); }
+        .status-respondido::before { background: var(--accent-warning); }
+        .status-cita { background: rgba(108, 99, 255, 0.1); color: var(--accent-primary); border: 1px solid rgba(108, 99, 255, 0.2); }
+        .status-cita::before { background: var(--accent-primary); }
+        .status-completado { background: rgba(0, 230, 118, 0.1); color: var(--accent-success); border: 1px solid rgba(0, 230, 118, 0.2); }
+        .status-completado::before { background: var(--accent-success); }
 
-        /* ----- MESSAGE MODAL ----- */
-        .msg-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(5px); }
-        .msg-modal.active { display: flex; }
-        .msg-content { background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; width: 100%; max-width: 600px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; }
-        .msg-content h2 { font-family: 'Space Grotesk', sans-serif; margin-bottom: 24px; color: white; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; }
-        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
-        .modal-item { display: flex; flex-direction: column; gap: 8px; }
-        .modal-label { color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        .modal-val { font-size: 16px; color: white; }
-        .msg-text-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-top: 16px; color: #d0d0e0; line-height: 1.6; font-size: 15px; }
-        .close-btn { position: absolute; top: 24px; right: 24px; background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; transition: color 0.2s; }
-        .close-btn:hover { color: white; }
-
-        @media (max-width: 768px) {
-            .header { flex-direction: column; align-items: flex-start; gap: 20px; }
-            .table-header { flex-direction: column; gap: 20px; }
-            .search-box input { width: 100%; }
+        /* --- CRM MODAL (SIDE PANEL) --- */
+        .side-panel {
+            position: fixed; top: 0; right: -500px; width: 450px; height: 100vh;
+            background: #11111d; border-left: 1px solid var(--border-color);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5); z-index: 2000;
+            transition: right 0.3s ease; display: flex; flex-direction: column;
         }
+        .side-panel.open { right: 0; }
+        .panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 1999; display: none; }
+        .panel-overlay.open { display: block; }
+
+        .panel-header { padding: 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
+        .panel-header h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; display: flex; align-items: center; gap: 8px;}
+        .close-panel { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 4px; }
+        .close-panel:hover { color: white; background: rgba(255,255,255,0.1); }
+
+        .panel-body { padding: 24px; overflow-y: auto; flex-grow: 1; }
+        
+        .client-info-card { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.05); }
+        .info-row { display: flex; margin-bottom: 12px; font-size: 14px; }
+        .info-row:last-child { margin-bottom: 0; }
+        .info-label { width: 100px; color: var(--text-muted); font-weight: 500; }
+        .info-val { color: white; flex-grow: 1; word-break: break-all; }
+        .info-val a { color: var(--accent-secondary); text-decoration: none; }
+        .info-val a:hover { text-decoration: underline; }
+
+        .form-section { margin-bottom: 24px; }
+        .form-section h4 { color: var(--text-main); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+
+        .panel-footer { padding: 20px 24px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.3); display: flex; justify-content: flex-end; gap: 12px; }
+
+        /* Toast Notification */
+        .toast { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: var(--accent-success); color: #000; font-weight: 600; padding: 12px 24px; border-radius: 30px; box-shadow: 0 10px 20px rgba(0,230,118,0.3); transition: bottom 0.3s; z-index: 3000; display: flex; align-items: center; gap: 8px; }
+        .toast.show { bottom: 30px; }
+
     </style>
 </head>
 <body>
@@ -135,112 +170,194 @@
     <!-- Login Screen -->
     <div id="login-screen">
         <div class="login-card">
-            <h2>Admin Dashboard</h2>
+            <svg style="width: 48px; height: 48px; color: var(--accent-primary); margin-bottom: 16px;" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <h2>Admin CRM</h2>
             <div class="input-group">
-                <input type="password" id="password-input" placeholder="Ingresa la contraseña" onkeypress="if(event.key === 'Enter') login()">
+                <input type="password" id="password-input" placeholder="Contraseña de acceso" onkeypress="if(event.key === 'Enter') login()">
             </div>
-            <p id="error-msg" style="color: #ff5252; margin-bottom: 16px; display: none;">Contraseña incorrecta</p>
-            <button class="btn" onclick="login()" id="login-btn">Acceder al Inbox</button>
+            <p id="error-msg" style="color: var(--accent-danger); margin-bottom: 16px; display: none; font-size: 14px;">Acceso denegado. Intenta de nuevo.</p>
+            <button class="btn" onclick="login()" id="login-btn" style="width: 100%;">
+                <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Entrar al Sistema
+            </button>
         </div>
     </div>
 
-    <!-- Dashboard -->
-    <div id="dashboard">
-        <div class="header">
-            <div>
-                <h1>Inbox de Contactos</h1>
-                <p style="color: var(--text-muted); margin-top: 8px;">Mensajes recibidos desde el formulario de contacto</p>
+    <!-- App Layout -->
+    <div id="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                <h2>Portafolio CRM</h2>
             </div>
-            <button class="btn" style="width: auto; padding: 12px 24px;" onclick="fetchData()">🔄 Actualizar</button>
+            <div class="nav-menu">
+                <a class="nav-item active" onclick="switchView('inbox', this)">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    Bandeja Inbox
+                    <span class="badge-count" id="badge-inbox">0</span>
+                </a>
+                <a class="nav-item" onclick="switchView('projects', this)">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    Citas & Proyectos
+                    <span class="badge-count" id="badge-projects" style="background: var(--accent-secondary);">0</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="search-container">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="global-search" placeholder="Buscar cliente por nombre o email..." oninput="renderCurrentView()">
+                </div>
+                <div>
+                    <button class="btn btn-outline" onclick="fetchData()" id="refresh-btn">
+                        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> 
+                        Sincronizar
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Inbox View -->
+                <section id="view-inbox" class="view-section active">
+                    <div class="page-header">
+                        <div>
+                            <h1>Bandeja de Entrada</h1>
+                            <p>Nuevos mensajes de contacto e interesados por responder.</p>
+                        </div>
+                    </div>
+                    <div class="card-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Servicio</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-inbox">
+                                <!-- Data injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Projects View -->
+                <section id="view-projects" class="view-section">
+                    <div class="page-header">
+                        <div>
+                            <h1>Citas & Proyectos</h1>
+                            <p>Gestión de clientes agendados, proyectos en curso y completados.</p>
+                        </div>
+                    </div>
+                    <div class="card-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Enlace Web</th>
+                                    <th>Estado</th>
+                                    <th>Presupuesto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-projects">
+                                <!-- Data injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- CRM Side Panel (Edit Row) -->
+    <div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+    <div class="side-panel" id="side-panel">
+        <div class="panel-header">
+            <h3><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Ficha de Cliente</h3>
+            <button class="close-panel" onclick="closePanel()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        </div>
+        
+        <div class="panel-body">
+            <div class="client-info-card">
+                <div class="info-row"><div class="info-label">Nombre</div><div class="info-val" id="pd-name"></div></div>
+                <div class="info-row"><div class="info-label">Email</div><div class="info-val"><a href="#" id="pd-email"></a></div></div>
+                <div class="info-row"><div class="info-label">Servicio</div><div class="info-val" id="pd-service" style="color: var(--accent-secondary);"></div></div>
+                <div class="info-row"><div class="info-label">Mensaje</div><div class="info-val" id="pd-msg" style="color: #ccc; font-style: italic;"></div></div>
+                <div class="info-row" style="margin-top:12px; font-size:12px;"><div class="info-label">Fecha</div><div class="info-val" id="pd-date"></div></div>
+            </div>
+
+            <input type="hidden" id="edit-row-index">
+
+            <div class="form-section">
+                <h4>Gestión Comercial</h4>
+                
+                <div class="input-group">
+                    <label>Estado del Contacto</label>
+                    <select id="edit-estado">
+                        <option value="Por Responder">Por Responder</option>
+                        <option value="Respondido">Respondido</option>
+                        <option value="Cita Agendada">Cita Agendada</option>
+                        <option value="En Progreso">Proyecto Anclado</option>
+                        <option value="Completado">Completado</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Presupuesto / Precio Ofrecido</label>
+                    <input type="text" id="edit-presupuesto" placeholder="Ej. $500 USD">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h4>Detalles Técnicos</h4>
+                
+                <div class="input-group">
+                    <label>Enlace de Referencia / Web del Cliente</label>
+                    <input type="url" id="edit-link" placeholder="https://ejemplo.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Notas Privadas</label>
+                    <textarea id="edit-notas" rows="4" placeholder="Escribe anotaciones solo visibles para ti..."></textarea>
+                </div>
+            </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">📬</div>
-                <div class="stat-info">
-                    <h3>Total Mensajes</h3>
-                    <p id="stat-total">0</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-info">
-                    <h3>Últimos 7 Días</h3>
-                    <p id="stat-week">0</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-info">
-                    <h3>Top Servicio</h3>
-                    <p id="stat-top" style="font-size: 20px; line-height: 1.2;">-</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <div class="table-header">
-                <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px;">Registro de Mensajes</h3>
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Buscar por nombre o email..." oninput="filterTable()">
-                </div>
-            </div>
-            <div class="table-wrapper">
-                <table id="data-table">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Servicio</th>
-                            <th>Mensaje</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        <!-- Data rows injected via JS -->
-                    </tbody>
-                </table>
-            </div>
+        <div class="panel-footer">
+            <button class="btn btn-outline" onclick="closePanel()">Cancelar</button>
+            <button class="btn btn-success" id="save-btn" onclick="saveChanges()">
+                <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                Guardar Cambios
+            </button>
         </div>
     </div>
 
-    <!-- Message Modal -->
-    <div class="msg-modal" id="msg-modal" onclick="if(event.target === this) closeModal()">
-        <div class="msg-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h2>Detalle del Mensaje</h2>
-            
-            <div class="modal-grid">
-                <div class="modal-item">
-                    <span class="modal-label">Nombre</span>
-                    <span class="modal-val" id="modal-name"></span>
-                </div>
-                <div class="modal-item">
-                    <span class="modal-label">Email</span>
-                    <a href="#" class="modal-val" id="modal-email" style="color: var(--accent-secondary); text-decoration: none;"></a>
-                </div>
-                <div class="modal-item">
-                    <span class="modal-label">Servicio</span>
-                    <div><span class="badge" id="modal-service"></span></div>
-                </div>
-                <div class="modal-item">
-                    <span class="modal-label">Fecha de Envío</span>
-                    <span class="modal-val" id="modal-date"></span>
-                </div>
-            </div>
-            
-            <div class="modal-item" style="margin-top: 24px;">
-                <span class="modal-label">Mensaje</span>
-                <div class="msg-text-box" id="modal-msg"></div>
-            </div>
-        </div>
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toast-msg">Guardado correctamente</span>
     </div>
 
     <script>
-        // EL URL QUE EL USUARIO PROPORCIONÓ
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSbfUKl5WDQ9sJXQ9o5RHi2WomwsDVsED0TqQ4ytucTfM9PsRwnQGojtTdCay8akCaTA/exec';
-        let currentData = [];
+        let fullData = [];
         let currentApiKey = '';
+        let activeView = 'inbox'; // 'inbox' or 'projects'
+
+        // Utility: Parse status to CSS class
+        function getStatusClass(status) {
+            const s = (status || '').toLowerCase();
+            if (s.includes('por responder')) return 'status-por-responder';
+            if (s.includes('respondido')) return 'status-respondido';
+            if (s.includes('cita')) return 'status-cita';
+            if (s.includes('progreso') || s.includes('completado') || s.includes('proyecto')) return 'status-completado';
+            return 'status-por-responder'; // default
+        }
 
         async function login() {
             const pwd = document.getElementById('password-input').value;
@@ -249,168 +366,266 @@
             
             if (!pwd) return;
 
-            btn.innerHTML = 'Verificando... <span style="font-size:12px">⏳</span>';
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Conectando...';
             btn.disabled = true;
             error.style.display = 'none';
 
             try {
-                // Hacer una petición de prueba para validar la contraseña
-                const response = await fetch(`${SCRIPT_URL}?apiKey=${encodeURIComponent(pwd)}`);
-                const result = await response.json();
+                const res = await fetch(`${SCRIPT_URL}?apiKey=${encodeURIComponent(pwd)}`);
+                const result = await res.json();
 
                 if (result.result === 'success') {
-                    // Login exitoso
                     currentApiKey = pwd;
                     document.getElementById('login-screen').style.opacity = '0';
                     setTimeout(() => {
                         document.getElementById('login-screen').style.display = 'none';
-                        document.getElementById('dashboard').classList.add('active');
-                        renderData(result.data);
-                    }, 500);
+                        document.getElementById('app-layout').classList.add('active');
+                        processData(result.data);
+                    }, 400);
                 } else {
-                    // Contraseña incorrecta
-                    error.style.display = 'block';
-                    btn.innerHTML = 'Acceder al Inbox';
-                    btn.disabled = false;
+                    throw new Error("Clave inválida");
                 }
             } catch (err) {
-                console.error(err);
-                error.innerText = 'Error de conexión. Revisa tu internet o la URL del script.';
                 error.style.display = 'block';
-                btn.innerHTML = 'Acceder al Inbox';
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> Entrar al Sistema';
                 btn.disabled = false;
             }
         }
 
         async function fetchData() {
             if (!currentApiKey) return;
-            const tbody = document.getElementById('table-body');
-            const btn = document.querySelector('.header .btn');
-            
-            btn.innerHTML = 'Actualizando...';
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">Cargando mensajes... ⏳</td></tr>';
+            const btn = document.getElementById('refresh-btn');
+            const origHTML = btn.innerHTML;
+            btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.26l3.08 3.19"></path></svg> Sincronizando...';
+            btn.disabled = true;
             
             try {
-                const response = await fetch(`${SCRIPT_URL}?apiKey=${currentApiKey}`);
-                const result = await response.json();
+                const res = await fetch(`${SCRIPT_URL}?apiKey=${currentApiKey}`);
+                const result = await res.json();
                 if (result.result === 'success') {
-                    renderData(result.data);
+                    processData(result.data);
+                    showToast("Datos sincronizados");
                 }
             } catch (err) {
                 console.error(err);
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #ff5252;">Error al cargar datos.</td></tr>';
+                alert("Error sincronizando los datos con la base de datos.");
             } finally {
-                btn.innerHTML = '🔄 Actualizar';
+                btn.innerHTML = origHTML;
+                btn.disabled = false;
             }
         }
 
-        function renderData(data) {
-            // Filtrar filas vacías (donde nombre y mensaje están vacíos)
-            currentData = data.filter(r => r.nombre || r.email || r.mensaje);
-            updateStats(currentData);
-            filterTable(); 
+        function processData(data) {
+            // Filtrar vacíos
+            fullData = data.filter(r => r.nombre || r.email || r.mensaje);
+            renderCurrentView();
+            updateBadges();
         }
 
-        function updateStats(data) {
-            // Total
-            document.getElementById('stat-total').innerText = data.length;
-
-            // Últimos 7 días
-            const now = new Date();
-            const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
-            const recent = data.filter(r => {
-                if(!r.fecha) return false;
-                const d = new Date(r.fecha);
-                return d >= sevenDaysAgo;
+        function updateBadges() {
+            let inboxCount = 0;
+            let projectCount = 0;
+            
+            fullData.forEach(r => {
+                const st = (r.estado || '').toLowerCase();
+                const isProject = st.includes('cita') || st.includes('progreso') || st.includes('completado');
+                if (isProject) projectCount++;
+                else inboxCount++;
             });
-            document.getElementById('stat-week').innerText = recent.length;
 
-            // Top Service (Ignorando vacíos o 'General')
-            const services = {};
-            data.forEach(r => {
-                if (r.servicio && r.servicio.trim() !== '') {
-                    services[r.servicio] = (services[r.servicio] || 0) + 1;
-                }
-            });
-            let topService = '-';
-            let max = 0;
-            for (const [srv, count] of Object.entries(services)) {
-                if (count > max) { max = count; topService = srv; }
-            }
-            document.getElementById('stat-top').innerText = topService;
+            document.getElementById('badge-inbox').innerText = inboxCount;
+            document.getElementById('badge-projects').innerText = projectCount;
         }
 
-        function filterTable() {
-            const query = document.getElementById('search-input').value.toLowerCase();
-            const filtered = currentData.filter(r => {
-                const nombre = (r.nombre || '').toLowerCase();
-                const email = (r.email || '').toLowerCase();
-                return nombre.includes(query) || email.includes(query);
+        function switchView(viewName, el) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+            
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            
+            activeView = viewName;
+            renderCurrentView();
+        }
+
+        function renderCurrentView() {
+            const query = document.getElementById('global-search').value.toLowerCase();
+            
+            const filtered = fullData.filter(r => {
+                // Filtro de Búsqueda
+                const matchSearch = (r.nombre || '').toLowerCase().includes(query) || (r.email || '').toLowerCase().includes(query);
+                if (!matchSearch) return false;
+
+                // Filtro de Sección
+                const st = (r.estado || 'Por Responder').toLowerCase();
+                const isProject = st.includes('cita') || st.includes('progreso') || st.includes('completado');
+                
+                if (activeView === 'inbox') return !isProject;
+                if (activeView === 'projects') return isProject;
+                return true;
             });
 
-            const tbody = document.getElementById('table-body');
+            const tbody = document.getElementById(`table-${activeView}`);
             tbody.innerHTML = '';
 
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">No hay mensajes que coincidan con la búsqueda.</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color: var(--text-muted);">No hay registros aquí.</td></tr>`;
                 return;
             }
 
-            filtered.forEach((row, index) => {
+            filtered.forEach(row => {
                 const tr = document.createElement('tr');
+                tr.onclick = () => openPanel(row);
                 
-                // Formatear Fecha
-                let fechaStr = 'N/A';
+                // Formato Fecha
+                let fd = 'N/A';
                 if(row.fecha) {
                     const d = new Date(row.fecha);
-                    // Formato: 12 Oct 2026, 14:30
-                    fechaStr = d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+                    fd = d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
                 }
 
-                // Truncar Mensaje
-                let msgPreview = row.mensaje || 'Sin mensaje...';
-                if (msgPreview.length > 50) msgPreview = msgPreview.substring(0, 50) + '...';
+                const n = row.nombre || 'Anónimo';
+                const initial = n.trim().charAt(0).toUpperCase();
+                const stClass = getStatusClass(row.estado);
 
-                // Añadir fila
-                tr.innerHTML = `
-                    <td style="color: var(--text-muted); font-size: 13px;">${fechaStr}</td>
-                    <td style="font-weight: 500; color: white;">${row.nombre || 'Anónimo'}</td>
-                    <td style="color: var(--text-muted);">${row.email || 'N/A'}</td>
-                    <td><span class="badge">${row.servicio || 'General'}</span></td>
-                    <td class="message-cell" onclick="openModal('${row.fecha}', '${row.nombre?.replace(/'/g, "\\'")}', '${row.email}', '${row.servicio}', \`${(row.mensaje || '').replace(/`/g, "\\`")}\`)">Leer mensaje ↗</td>
-                `;
+                if (activeView === 'inbox') {
+                    tr.innerHTML = `
+                        <td>
+                            <div class="td-name">
+                                <div class="avatar">${initial}</div>
+                                <div>
+                                    <div>${n}</div>
+                                    <div style="font-size:12px; font-weight:400; color:var(--text-muted);">${row.email || 'Sin email'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="color:var(--text-muted);">${row.servicio || 'General'}</td>
+                        <td><span class="status-badge ${stClass}">${row.estado || 'Por Responder'}</span></td>
+                        <td class="td-date">${fd}</td>
+                    `;
+                } else {
+                    // Vista Proyectos
+                    const linkHT = row.link_web ? `<a href="${row.link_web}" target="_blank" style="color:var(--accent-secondary); text-decoration:none;">↗ Abrir Link</a>` : '<span style="color:var(--text-muted); font-size:12px;">Sin link</span>';
+                    tr.innerHTML = `
+                        <td>
+                            <div class="td-name">
+                                <div class="avatar" style="background:var(--bg-card); border:1px solid var(--accent-secondary); color:var(--accent-secondary);">${initial}</div>
+                                <div>
+                                    <div>${n}</div>
+                                    <div style="font-size:12px; font-weight:400; color:var(--text-muted);">${row.servicio || 'General'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${linkHT}</td>
+                        <td><span class="status-badge ${stClass}">${row.estado || 'Cita Agendada'}</span></td>
+                        <td style="color:var(--text-main); font-family:'Space Grotesk', sans-serif;">${row.presupuesto || '--'}</td>
+                    `;
+                }
+
                 tbody.appendChild(tr);
             });
         }
 
-        function openModal(fecha, nombre, email, servicio, mensaje) {
-            document.getElementById('modal-name').innerText = nombre && nombre !== 'undefined' ? nombre : 'Anónimo';
+        // --- PANEL LOGIC ---
+        function openPanel(row) {
+            document.getElementById('edit-row-index').value = row.rowindex || row.rowIndex;
             
-            const emailEl = document.getElementById('modal-email');
-            if (email && email !== 'undefined') {
-                emailEl.innerText = email;
-                emailEl.href = `mailto:${email}`;
-            } else {
-                emailEl.innerText = 'N/A';
-                emailEl.removeAttribute('href');
-            }
+            // Textos lectura
+            document.getElementById('pd-name').innerText = row.nombre || 'Anónimo';
+            document.getElementById('pd-email').innerText = row.email || 'N/A';
+            document.getElementById('pd-email').href = `mailto:${row.email || ''}`;
+            document.getElementById('pd-service').innerText = row.servicio || 'General';
+            document.getElementById('pd-msg').innerText = `"${row.mensaje || 'S/M'}"`;
+            
+            let dString = '';
+            if(row.fecha) dString = new Date(row.fecha).toLocaleString('es-ES');
+            document.getElementById('pd-date').innerText = dString;
 
-            document.getElementById('modal-service').innerText = servicio && servicio !== 'undefined' ? servicio : 'General';
+            // Inputs edición
+            let est = row.estado || 'Por Responder';
+            // Validar que el select tenga la opcion
+            const selOptions = Array.from(document.getElementById('edit-estado').options).map(o => o.value);
+            if (!selOptions.includes(est)) est = 'Por Responder';
             
-            let fechaStr = 'N/A';
-            if(fecha && fecha !== 'undefined') {
-                const d = new Date(fecha);
-                fechaStr = d.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' }) + ' a las ' + d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-            }
-            document.getElementById('modal-date').innerText = fechaStr;
-            
-            document.getElementById('modal-msg').innerText = mensaje && mensaje !== 'undefined' ? mensaje : 'El usuario no escribió ningún mensaje adicional.';
+            document.getElementById('edit-estado').value = est;
+            document.getElementById('edit-presupuesto').value = row.presupuesto || '';
+            document.getElementById('edit-link').value = row.link_web || '';
+            document.getElementById('edit-notas').value = row.notas || '';
 
-            document.getElementById('msg-modal').classList.add('active');
+            // Mostrar
+            document.getElementById('panel-overlay').classList.add('open');
+            document.getElementById('side-panel').classList.add('open');
         }
 
-        function closeModal() {
-            document.getElementById('msg-modal').classList.remove('active');
+        function closePanel() {
+            document.getElementById('side-panel').classList.remove('open');
+            document.getElementById('panel-overlay').classList.remove('open');
+        }
+
+        async function saveChanges() {
+            const rowIndex = document.getElementById('edit-row-index').value;
+            const btn = document.getElementById('save-btn');
+            if (!rowIndex) return;
+
+            const estado = document.getElementById('edit-estado').value;
+            const presupuesto = document.getElementById('edit-presupuesto').value;
+            const link_web = document.getElementById('edit-link').value;
+            const notas = document.getElementById('edit-notas').value;
+
+            btn.innerHTML = 'Guardando...';
+            btn.disabled = true;
+
+            const payload = {
+                action: 'update',
+                apiKey: currentApiKey,
+                rowIndex: rowIndex,
+                estado: estado,
+                presupuesto: presupuesto,
+                link_web: link_web,
+                notas: notas
+            };
+
+            try {
+                // Apps Script requiere formData o raw string para POST desde Fetch a veces, pero JSON stringified body funciona si esta bien formateado.
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Truco para evitar preflight CORS duro en Google Script
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if(result.result === 'success') {
+                    // Actualizar memoria local para no tener refetch forzoso
+                    const rowObj = fullData.find(r => (r.rowindex || r.rowIndex) == rowIndex);
+                    if (rowObj) {
+                        rowObj.estado = estado;
+                        rowObj.presupuesto = presupuesto;
+                        rowObj.link_web = link_web;
+                        rowObj.notas = notas;
+                    }
+                    
+                    showToast("Atributos actualizados con éxito");
+                    closePanel();
+                    processData(fullData); // Renderiza y actualiza los badges visualmente
+                } else {
+                    throw new Error(result.error || "Fallo en backend");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error al guardar: Asegurate de haber actualizado el código de Google Apps Script.");
+            } finally {
+                btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Guardar Cambios`;
+                btn.disabled = false;
+            }
+        }
+
+        // --- TOAST ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
     </script>
 </body>
