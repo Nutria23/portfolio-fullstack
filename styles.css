@@ -242,7 +242,7 @@ body:hover #cursor-glow {
     padding: 0 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .nav-logo {
@@ -1501,8 +1501,31 @@ body:hover #cursor-glow {
 }
 
 .contact-card-icon {
-    font-size: 28px;
     flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(108, 99, 255, 0.12);
+    border-radius: 12px;
+    color: var(--accent-secondary);
+    transition: var(--transition-medium);
+}
+
+.contact-card-icon svg {
+    color: var(--accent-secondary);
+    fill: var(--accent-secondary);
+    stroke: var(--accent-secondary);
+}
+
+.contact-card-icon svg[fill="none"] {
+    fill: none;
+}
+
+.contact-card:hover .contact-card-icon {
+    background: rgba(108, 99, 255, 0.25);
+    transform: scale(1.05);
 }
 
 .contact-card h4 {
